@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="header">
+      <h2>Portal de Agentes</h2>
+      <p>Gestión de Seguros</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          placeholder="agente@insurance.com" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password" 
+          placeholder="••••••••" 
+        />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || loading" class="btn-submit">
+        {{ loading ? 'Iniciando sesión...' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>
