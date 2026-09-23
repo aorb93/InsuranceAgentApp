@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+/* Paleta de colores ejecutiva */
+:root {
+  --bg-sidebar: #0f172a;        /* Azul marino muy oscuro */
+  --bg-sidebar-active: #1e293b; /* Azul marino medio */
+  --accent-blue: #2563eb;       /* Azul corporativo */
+  --bg-main: #f8fafc;           /* Gris pizarra ultraligero */
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+}
+
+body {
+  background-color: var(--bg-main) !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+}
+
+/* Custom Sidebar */
+.sidebar-custom {
+  background-color: var(--bg-sidebar) !important;
+  border-right: 1px solid #1e293b;
+}
+
+.sidebar-custom .nav-link {
+  color: #94a3b8 !important;
+  font-weight: 500;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-custom .nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-custom .nav-link.active {
+  color: #ffffff !important;
+  background-color: var(--accent-blue) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Tarjetas ejecutivas */
+.card-metric {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-metric:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

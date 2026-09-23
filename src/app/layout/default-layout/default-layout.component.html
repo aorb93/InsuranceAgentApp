@@ -1,1 +1,137 @@
-<p>default-layout works!</p>
+<div class="layout-container d-flex">
+
+  <!-- Fondo oscuro al desplegar menú en móviles -->
+  <div 
+    *ngIf="isSidebarOpen" 
+    class="sidebar-backdrop d-lg-none" 
+    (click)="closeSidebar()">
+  </div>
+
+  <!-- Sidebar / Menú Lateral -->
+  <aside 
+    class="sidebar-custom text-white p-3 d-flex flex-column"
+    [class.show-sidebar]="isSidebarOpen">
+    
+    <!-- Encabezado del Sidebar -->
+    <div class="d-flex align-items-center justify-content-between mb-3 px-1 pt-1">
+      <div class="d-flex align-items-center gap-2">
+        <div class="bg-primary rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-white" viewBox="0 0 16 16">
+            <path d="M5.072 1.193a.5.5 0 0 1 .454.269l.348.696a.5.5 0 0 0 .448.276h3.356a.5.5 0 0 0 .448-.276l.348-.696a.5.5 0 0 1 .454-.269h.143a2 2 0 0 1 1.996 1.865l.024.316a.5.5 0 0 0 .484.462l.332.011a2 2 0 0 1 1.933 2.062l-.123 3.684a2 2 0 0 1-1.995 1.932h-.143a.5.5 0 0 0-.454.269l-.348.696a.5.5 0 0 1-.448.276H5.68a.5.5 0 0 1-.448-.276l-.348-.696a.5.5 0 0 0-.454-.269h-.143a2 2 0 0 1-1.996-1.865l-.024-.316a.5.5 0 0 0-.484-.462l-.332-.011A2 2 0 0 1 .521 7.202l.123-3.684A2 2 0 0 1 2.639 1.587h.143z"/>
+          </svg>
+        </div>
+        <div>
+          <h6 class="m-0 fw-bold text-white tracking-wide" style="font-size: 0.95rem;">SEGUROS APP</h6>
+          <small style="font-size: 0.68rem; color: #94a3b8;" class="text-uppercase fw-semibold">Gestión de Agentes</small>
+        </div>
+      </div>
+      
+      <!-- Botón X para cerrar en móvil -->
+      <button (click)="closeSidebar()" class="btn btn-sm text-secondary d-lg-none p-1 border-0" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="text-slate-400" viewBox="0 0 16 16">
+          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+        </svg>
+      </button>
+    </div>
+
+    <hr style="border-color: #334155; opacity: 0.5;" class="my-2">
+
+    <!-- Menú de Navegación -->
+    <ul class="nav nav-pills flex-column mb-auto pt-1">
+      <li class="nav-item mb-1">
+        <a routerLink="/dashboard" routerLinkActive="active" (click)="closeSidebar()" class="nav-link d-flex align-items-center gap-2.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a routerLink="/clients" routerLinkActive="active" (click)="closeSidebar()" class="nav-link d-flex align-items-center gap-2.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+          </svg>
+          <span>Asegurados</span>
+        </a>
+      </li>
+    </ul>
+
+    <hr style="border-color: #334155; opacity: 0.5;" class="my-2">
+
+    <!-- Tarjeta del Agente dentro del Menú -->
+    <div class="p-2 d-flex align-items-center rounded-3" style="background: rgba(255,255,255,0.05);">
+      <div class="avatar-circle me-2 fw-bold text-white d-flex align-items-center justify-content-center">
+        {{ agentName.charAt(0) }}
+      </div>
+      <div class="text-truncate">
+        <small class="d-block text-truncate text-white fw-medium" style="font-size: 0.82rem;">{{ agentName }}</small>
+        <span style="font-size: 0.68rem; color: #10b981;" class="fw-semibold">● Agente Activo</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Área Principal -->
+  <div class="main-wrapper d-flex flex-column flex-grow-1">
+    
+    <!-- Navbar Superior -->
+    <header class="bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center shadow-sm" style="min-height: 56px;">
+      
+      <!-- Lado Izquierdo: Botón Menú (Móvil) / Título (Desktop) -->
+      <div class="d-flex align-items-center">
+        <button 
+          (click)="toggleSidebar()" 
+          class="btn btn-menu-mobile d-lg-none d-flex align-items-center gap-1.5 px-2.5 py-1 rounded-2"
+          type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+          <span class="fw-semibold" style="font-size: 0.8rem;">Menú</span>
+        </button>
+
+        <div class="d-none d-lg-block text-muted small fw-medium">
+          <span class="text-primary fw-semibold">Portal del Agente</span> &bull; Panel de Control
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Nombre + Botón Salir -->
+      <div class="d-flex align-items-center gap-2 gap-sm-3">
+        
+        <!-- Nombre del Agente -->
+        <div class="d-flex align-items-center">
+          <div class="avatar-circle me-2 fw-bold text-white d-flex align-items-center justify-content-center">
+            {{ agentName.charAt(0) }}
+          </div>
+          <div class="lh-1">
+            <span class="fw-semibold text-dark d-block text-truncate" style="max-width: 120px; font-size: 0.82rem;">{{ agentName }}</span>
+            <small class="text-muted d-none d-sm-block" style="font-size: 0.68rem;">Agente Autorizado</small>
+          </div>
+        </div>
+
+        <!-- Botón Salir (Claro e Intuitivo) -->
+        <button 
+          (click)="onLogout()" 
+          class="btn btn-logout d-flex align-items-center gap-1 px-2 px-sm-2.5 py-1 rounded-2"
+          type="button" 
+          title="Cerrar Sesión">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 1h-8A1.5 1.5 0 0 0 0 2.5v9A1.5 1.5 0 0 0 1.5 13h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+          </svg>
+          <span class="fw-semibold" style="font-size: 0.78rem;">Salir</span>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- Zona de Contenido con Scroll -->
+    <main class="content-body p-3 p-md-4 flex-grow-1">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-top py-2 px-3 text-center text-muted small" style="font-size: 0.75rem;">
+      InsuranceAgentApp &copy; 2026 &bull; Todos los derechos reservados.
+    </footer>
+  </div>
+
+</div>

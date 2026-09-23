@@ -1,0 +1,98 @@
+.layout-container {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+/* Sidebar General */
+.sidebar-custom {
+  width: 250px;
+  min-width: 250px;
+  background-color: #0f172a !important;
+  border-right: 1px solid #1e293b;
+  height: 100%;
+  z-index: 1040;
+  transition: transform 0.3s ease;
+}
+
+/* Sidebar Móvil */
+@media (max-width: 991.98px) {
+  .sidebar-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar-custom.show-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 1030;
+  }
+}
+
+.main-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- ESTILOS DE LOS BOTONES SUPERIORES --- */
+
+/* Botón Menú Móvil */
+.btn-menu-mobile {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.btn-menu-mobile:active, .btn-menu-mobile:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* Botón Salir (Cerrar Sesión) */
+.btn-logout {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:active, .btn-logout:hover {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+/* Avatar del Agente */
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  font-size: 0.82rem;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}

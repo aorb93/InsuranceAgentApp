@@ -1,38 +1,85 @@
-<div class="login-container">
-  <div class="login-card">
-    <div class="header">
-      <h2>Portal de Agentes</h2>
-      <p>Gestión de Seguros</p>
+<div class="login-wrapper d-flex align-items-center justify-content-center p-3">
+  <div class="login-card bg-white shadow-lg rounded-4 overflow-hidden" style="width: 100%; max-width: 410px; border: 1px solid #e2e8f0;">
+
+    <!-- Header en Azul Marino Corporativo -->
+    <div class="p-4 text-white text-center" style="background-color: #0f172a;">
+      <div class="bg-primary rounded-3 d-inline-flex align-items-center justify-content-center p-3 mb-2 shadow-sm" style="width: 52px; height: 52px;">
+        <i class="bi bi-shield-check fs-2 text-white"></i>
+      </div>
+      <h5 class="fw-bold m-0 tracking-wide">SEGUROS APP</h5>
+      <small class="text-uppercase fw-semibold" style="font-size: 0.72rem; color: #94a3b8; letter-spacing: 1px;">Portal de Agentes</small>
     </div>
 
-    <div *ngIf="errorMessage" class="alert-error">
-      {{ errorMessage }}
+    <!-- Cuerpo del Formulario -->
+    <div class="p-4">
+      <div class="text-center mb-4">
+        <h6 class="fw-bold text-dark m-0">Iniciar Sesión</h6>
+        <p class="text-muted small m-0 mt-1">Ingresa tus credenciales autorizadas</p>
+      </div>
+
+      <!-- Alerta de Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center small py-2 px-3 mb-3 border-0 shadow-sm" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2 fs-6 flex-shrink-0"></i>
+        <div>{{ errorMessage }}</div>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Correo Electrónico -->
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold text-dark small mb-1">Correo electrónico</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0 text-muted">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input 
+              id="email" 
+              type="email" 
+              class="form-control bg-light border-start-0 ps-0" 
+              formControlName="email" 
+              placeholder="agente@insurance.com"
+              [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            />
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold text-dark small mb-1">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0 text-muted">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input 
+              id="password" 
+              type="password" 
+              class="form-control bg-light border-start-0 ps-0" 
+              formControlName="password" 
+              placeholder="••••••••"
+              [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            />
+          </div>
+        </div>
+
+        <!-- Botón Ingresar -->
+        <button 
+          type="submit" 
+          [disabled]="loginForm.invalid || loading" 
+          class="btn btn-primary w-100 py-2.5 fw-semibold d-flex align-items-center justify-content-center shadow-sm"
+          style="border-radius: 8px; background-color: #2563eb; border: none;"
+        >
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          <span>{{ loading ? 'Verificando...' : 'Ingresar al Portal' }}</span>
+          <i *ngIf="!loading" class="bi bi-arrow-right-short fs-5 ms-1"></i>
+        </button>
+      </form>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input 
-          id="email" 
-          type="email" 
-          formControlName="email" 
-          placeholder="agente@insurance.com" 
-        />
-      </div>
+    <!-- Footer del Card -->
+    <div class="bg-light py-2 px-4 border-top text-center">
+      <small class="text-muted" style="font-size: 0.75rem;">
+        <i class="bi bi-shield-lock-fill text-success me-1"></i> Autenticación segura JWT
+      </small>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input 
-          id="password" 
-          type="password" 
-          formControlName="password" 
-          placeholder="••••••••" 
-        />
-      </div>
-
-      <button type="submit" [disabled]="loginForm.invalid || loading" class="btn-submit">
-        {{ loading ? 'Iniciando sesión...' : 'Ingresar' }}
-      </button>
-    </form>
   </div>
 </div>
