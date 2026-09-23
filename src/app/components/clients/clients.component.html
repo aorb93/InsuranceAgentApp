@@ -190,6 +190,34 @@
           <input type="text" formControlName="identificationNumber" class="form-control" placeholder="ABCD900101XXX">
         </div>
 
+        <div class="col-md-6">
+          <label for="birthDate" class="form-label font-subtitle">Fecha de Nacimiento</label>
+          <input type="date" id="birthDate" class="form-control corporate-input" formControlName="birthDate" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="city" class="form-label font-subtitle">Ciudad</label>
+          <input type="text" id="city" class="form-control corporate-input" placeholder="Ej. Hermosillo" formControlName="city"/>
+        </div>
+
+        <label class="form-label font-subtitle d-block">Tipo de Registro</label>
+        <div class="segmented-control">
+          <button 
+            type="button" 
+            class="segmented-btn" 
+            [class.active]="clientForm.get('clientType')?.value === 1"
+            (click)="setClientType(1)">
+            <i class="bi bi-person-check-fill me-1"></i> Cliente
+          </button>
+          <button 
+            type="button" 
+            class="segmented-btn" 
+            [class.active]="clientForm.get('clientType')?.value === 2"
+            (click)="setClientType(2)">
+            <i class="bi bi-person-badge-fill me-1"></i> Prospecto
+          </button>
+        </div>
+
         <div class="col-12">
           <div class="form-check form-switch pt-1">
             <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActiveSwitch">

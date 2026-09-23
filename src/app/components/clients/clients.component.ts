@@ -34,6 +34,9 @@ export class ClientsComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       identificationNumber: [''],
+      birthDate: [''],
+      city: [''],
+      clientType: [1, [Validators.required]], // 1 = Cliente por defecto
       isActive: [true]
     });
   }
@@ -87,19 +90,36 @@ export class ClientsComponent implements OnInit {
   openEditModal(client: Client): void {
     this.isEditMode = true;
     this.selectedClientId = client.id || null;
+
+    // Formatear la fecha a YYYY-MM-DD para el <input type="date">
+    let formattedBirthDate = '';
+    if (client.birthDate) {
+      formattedBirthDate = new Date(client.birthDate).toISOString().split('T')[0];
+    }
+
     this.clientForm.patchValue({
       firstName: client.firstName,
       lastName: client.lastName,
       email: client.email,
       phone: client.phone,
       identificationNumber: client.identificationNumber || '',
+      birthDate: formattedBirthDate,
+      city: client.city,
+      clientType: client.clientType ?? 1,
       isActive: client.isActive
     });
     this.isModalOpen = true;
   }
 
+  // Método para cambiar el Switch de Tipo de Registro (1 <-> 2)
+  setClientType(type: number): void {
+    this.clientForm.patchValue({ clientType: type });
+  }
+
   closeModal(): void {
     this.isModalOpen = false;
+    this.clientForm.reset({ clientType: 1, isActive: true });
+    this.isEditMode = false;
   }
 
   saveClient(): void {

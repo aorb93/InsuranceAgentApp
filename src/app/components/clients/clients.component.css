@@ -32,3 +32,82 @@
   from { transform: translateY(15px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* Variables de color nativas en CSS */
+:host {
+  --navy-primary: #1e3a8a;
+  --steel-blue: #3b82f6;
+  --slate-bg: #f8fafc;
+  --slate-border: #cbd5e1;
+  --amber-prospect: #d97706;
+}
+
+/* Inputs Corporativos */
+.corporate-input {
+  border: 1px solid var(--slate-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.corporate-input:focus {
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+/* Switch / Segmented Control Corporativo */
+.segmented-control {
+  display: inline-flex;
+  background-color: #f1f5f9;
+  border: 1px solid var(--slate-border);
+  border-radius: 8px;
+  padding: 3px;
+  width: 100%;
+}
+
+.segmented-control .segmented-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.segmented-control .segmented-btn.active {
+  background-color: var(--navy-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.segmented-control .segmented-btn:hover:not(.active) {
+  color: var(--navy-primary);
+}
+
+/* Badges para Tabla / Tarjetas */
+.badge-corporate {
+  padding: 0.35em 0.75em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50rem;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-client {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.badge-prospect {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
