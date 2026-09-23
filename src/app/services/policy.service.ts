@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Policy } from '../models/policy.model';
+import { Policy, CreateClientPoliciesRequest } from '../models/policy.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -17,7 +17,11 @@ export class PolicyService {
   }
 
   // Opcional: Para guardar múltiples pólizas en una sola llamada
-  createMultiplePolicies(policies: Policy[]): Observable<Policy[]> {
-    return this.http.post<Policy[]>(`${this.apiUrl}/bulk`, policies);
+  createMultiplePolicies(clientId: number, policies: Policy[]): Observable<Policy[]> {
+    const payload: CreateClientPoliciesRequest = {
+      clientId: clientId,
+      policies: policies
+    };
+    return this.http.post<Policy[]>(`${this.apiUrl}/bulk`, payload);
   }
 }

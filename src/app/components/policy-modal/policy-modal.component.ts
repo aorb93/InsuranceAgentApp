@@ -98,12 +98,9 @@ export class PolicyModalComponent implements OnChanges {
     }
 
     const rawPolicies = this.policies.value;
-    const policiesToSave = rawPolicies.map((p: any) => ({
-      ...p,
-      clientId: this.client!.id
-    }));
 
-    this.policyService.createMultiplePolicies(policiesToSave).subscribe({
+    // Pasamos directamente el ID del cliente y el listado de pólizas
+    this.policyService.createMultiplePolicies(this.client.id, rawPolicies).subscribe({
       next: () => {
         this.resetForms();
         this.completed.emit();
