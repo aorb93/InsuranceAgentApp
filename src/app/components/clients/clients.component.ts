@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/client.model';
+import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
@@ -23,6 +24,9 @@ export class ClientsComponent implements OnInit {
   
   selectedClientId: number | null = null;
   isLoading: boolean = false;
+
+  selectedClientForPolicy: Client | null = null;
+  showPolicyPrompt: boolean = false;
 
   constructor(
     private clientService: ClientService,
@@ -140,9 +144,15 @@ export class ClientsComponent implements OnInit {
       });
     } else {
       this.clientService.createClient(clientData).subscribe({
-        next: () => {
+        next: (createdClient: Client) => {
           this.loadClients();
           this.closeModal();
+
+          // 🔹 SI ES CLIENTE (valor 1), ACTIVAR EL MODAL DE PÓLIZA
+          if (createdClient && createdClient.clientType === 1) {
+            this.selectedClientForPolicy = createdClient;
+            this.showPolicyPrompt = true;
+          }
         },
         error: (err) => console.error('Error al crear cliente', err)
       });
@@ -169,5 +179,12 @@ export class ClientsComponent implements OnInit {
         error: (err) => console.error('Error al eliminar cliente', err)
       });
     }
+  }
+
+  // 🔹 MÉTODO PARA CERRAR Y LIMPIAR EL MODAL DE PÓLIZAS
+  onPolicyModalFinished(): void {
+    this.showPolicyPrompt = false;
+    this.selectedClientForPolicy = null;
+    this.loadClients(); // Recarga la tabla para reflejar cambios si aplica
   }
 }
