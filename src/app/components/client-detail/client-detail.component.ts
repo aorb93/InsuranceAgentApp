@@ -5,11 +5,12 @@ import { ClientService } from '../../services/client.service';
 import { PolicyService } from '../../services/policy.service';
 import { Client } from '../../models/client.model';
 import { Policy } from '../../models/policy.model';
+import { PolicyDetailComponent } from '../policy-detail/policy-detail.component';
 
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PolicyDetailComponent],
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.css']
 })
@@ -18,6 +19,10 @@ export class ClientDetailComponent implements OnInit {
   client?: Client;
   policies: Policy[] = [];
   loading: boolean = true;
+
+  /** Póliza seleccionada para ver / editar */
+  selectedPolicy: Policy | null = null;
+  showPolicyDetail: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +40,7 @@ export class ClientDetailComponent implements OnInit {
 
   loadClientData(): void {
     this.loading = true;
-    
+
     // Obtener datos del cliente
     this.clientService.getClientByGuid(this.clientGuid).subscribe({
       next: (data) => {
@@ -58,6 +63,24 @@ export class ClientDetailComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  /** Abre el modal de detalle con la póliza seleccionada */
+  openPolicyDetail(policy: Policy): void {
+    this.selectedPolicy = policy;
+    this.showPolicyDetail = true;
+  }
+
+  /** Cierra el modal de detalle y limpia la selección */
+  closePolicyDetail(): void {
+    this.showPolicyDetail = false;
+    this.selectedPolicy = null;
+  }
+
+  /** Se llama cuando PolicyDetailComponent emite que guardó cambios */
+  onPolicyUpdated(): void {
+    this.closePolicyDetail();
+    this.loadPolicies(); // Recarga la lista para reflejar los nuevos datos
   }
 
   goBack(): void {
