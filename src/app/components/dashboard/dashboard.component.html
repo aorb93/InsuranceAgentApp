@@ -16,13 +16,16 @@
   <!-- Tarjetas de Métricas -->
   <div class="row g-3 g-md-4 mb-4">
 
-    <!-- Asegurados Totales -->
+    <!-- Asegurados Totales Activos -->
     <div class="col-12 col-sm-6 col-md-4">
       <div class="card card-metric p-3 p-md-4">
         <div class="d-flex align-items-center justify-content-between">
           <div>
-            <span class="metric-label d-block mb-1">Asegurados Totales</span>
-            <h2 class="metric-value mb-0">0</h2>
+            <span class="metric-label d-block mb-1">Asegurados Activos</span>
+            <h2 class="metric-value mb-0">
+              <span *ngIf="!isLoading">{{ metrics.totalActiveClients }}</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+            </h2>
           </div>
           <div class="icon-box-corporate icon-box-navy">
             <i class="bi bi-people-fill"></i>
@@ -37,7 +40,10 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="metric-label d-block mb-1">Pólizas Vigentes</span>
-            <h2 class="metric-value mb-0">0</h2>
+            <h2 class="metric-value mb-0">
+              <span *ngIf="!isLoading">{{ metrics.activePolicies }}</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+            </h2>
           </div>
           <div class="icon-box-corporate icon-box-blue">
             <i class="bi bi-shield-fill-check"></i>
@@ -52,7 +58,10 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="metric-label d-block mb-1">Próximos Vencimientos</span>
-            <h2 class="metric-value mb-0">0</h2>
+            <h2 class="metric-value mb-0">
+              <span *ngIf="!isLoading">{{ metrics.expiringPolicies }}</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+            </h2>
           </div>
           <div class="icon-box-corporate icon-box-amber">
             <i class="bi bi-exclamation-triangle-fill"></i>
