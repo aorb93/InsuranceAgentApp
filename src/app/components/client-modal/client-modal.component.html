@@ -1,0 +1,81 @@
+<div *ngIf="show" class="modal-backdrop-custom d-flex align-items-center justify-content-center p-3">
+  <div class="modal-dialog-custom bg-white rounded-3 shadow-lg w-100 overflow-hidden" style="max-width: 500px;">
+    
+    <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+      <h6 class="fw-bold m-0 text-dark">{{ client?.guid ? 'Editar Asegurado' : 'Nuevo Asegurado' }}</h6>
+      <button (click)="close()" class="btn-close" type="button"></button>
+    </div>
+
+    <form [formGroup]="clientForm" (ngSubmit)="saveClient()" class="p-3">
+      <div class="row g-3">
+        <div class="col-6">
+          <label class="form-label small fw-semibold text-secondary">Nombre(s) *</label>
+          <input type="text" formControlName="firstName" class="form-control" [class.is-invalid]="clientForm.get('firstName')?.touched && clientForm.get('firstName')?.invalid">
+        </div>
+
+        <div class="col-6">
+          <label class="form-label small fw-semibold text-secondary">Apellido(s) *</label>
+          <input type="text" formControlName="lastName" class="form-control" [class.is-invalid]="clientForm.get('lastName')?.touched && clientForm.get('lastName')?.invalid">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label small fw-semibold text-secondary">Correo Electrónico *</label>
+          <input type="email" formControlName="email" class="form-control" [class.is-invalid]="clientForm.get('email')?.touched && clientForm.get('email')?.invalid">
+        </div>
+
+        <div class="col-6">
+          <label class="form-label small fw-semibold text-secondary">Teléfono (10 dígitos) *</label>
+          <input type="text" formControlName="phone" class="form-control" placeholder="6621000000" [class.is-invalid]="clientForm.get('phone')?.touched && clientForm.get('phone')?.invalid">
+        </div>
+
+        <div class="col-6">
+          <label class="form-label small fw-semibold text-secondary">RFC / ID</label>
+          <input type="text" formControlName="identificationNumber" class="form-control" placeholder="ABCD900101XXX">
+        </div>
+
+        <div class="col-md-6">
+          <label for="birthDate" class="form-label font-subtitle">Fecha de Nacimiento</label>
+          <input type="date" id="birthDate" class="form-control corporate-input" formControlName="birthDate" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="city" class="form-label font-subtitle">Ciudad</label>
+          <input type="text" id="city" class="form-control corporate-input" placeholder="Ej. Hermosillo" formControlName="city"/>
+        </div>
+
+        <label class="form-label font-subtitle d-block">Tipo de Registro</label>
+        <div class="segmented-control">
+          <button 
+            type="button" 
+            class="segmented-btn" 
+            [class.active]="clientForm.get('clientType')?.value === 1"
+            (click)="setClientType(1)">
+            <i class="bi bi-person-check-fill me-1"></i> Cliente
+          </button>
+          <button 
+            type="button" 
+            class="segmented-btn" 
+            [class.active]="clientForm.get('clientType')?.value === 2"
+            (click)="setClientType(2)">
+            <i class="bi bi-person-badge-fill me-1"></i> Prospecto
+          </button>
+        </div>
+
+        <div class="col-12">
+          <div class="form-check form-switch pt-1">
+            <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActiveSwitch">
+            <label class="form-check-label small fw-medium text-dark" for="isActiveSwitch">Cliente Activo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top">
+        <button type="button" (click)="close()" class="btn btn-light border px-3">Cancelar</button>
+        <button type="submit" [disabled]="clientForm.invalid" class="btn btn-primary px-4 fw-medium">
+          {{ client?.guid ? 'Guardar Cambios' : 'Registrar' }}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

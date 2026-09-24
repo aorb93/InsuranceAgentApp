@@ -24,10 +24,20 @@
     <!-- CARD 1: Información del Cliente -->
     <div class="col-12 col-lg-4">
       <div class="card shadow-sm border-0 rounded-3 h-100">
-        <div class="card-header bg-white border-bottom py-3">
-          <h5 class="card-title mb-0 fw-bold text-primary">
-            <i class="bi bi-person-badge me-2"></i>{{ client.firstName }} {{ client.lastName }}
+        <!-- CABECERA MODIFICADA CON BOTÓN DE EDICIÓN AL LADO DEL NOMBRE -->
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center gap-2">
+          <h5 class="card-title mb-0 fw-bold text-primary d-flex align-items-center gap-2 text-truncate">
+            <i class="bi bi-person-badge"></i>
+            <span class="text-truncate">{{ client.firstName }} {{ client.lastName }}</span>
           </h5>
+
+          <!-- Botón de Editar Cliente -->
+          <button (click)="openEditModal()" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 text-nowrap" title="Editar datos del cliente">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+            </svg>
+            <span>Editar</span>
+          </button>
         </div>
         <div class="card-body">
           <p class="mb-2"><strong>Email:</strong> {{ client.email || 'N/A' }}</p>
@@ -44,6 +54,10 @@
           <h5 class="card-title mb-0 fw-bold text-primary">
             <i class="bi bi-shield-check me-2"></i>Pólizas Registradas ({{ policies.length || 0 }})
           </h5>
+          <button class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1 fw-medium" (click)="openAddPolicyModal()">
+            <i class="bi bi-plus-lg"></i>
+            <span>Agregar Póliza</span>
+          </button>
         </div>
 
         <div class="card-body p-0">
@@ -162,6 +176,22 @@
   </div>
 
 </div>
+
+<!-- Componente Modal de Cliente -->
+<app-client-modal
+  [client]="client || null"
+  [show]="isEditModalOpen"
+  (completed)="onClientUpdated()"
+  (cancelled)="closeEditModal()">
+</app-client-modal>
+
+<!-- ─── Modal de Nueva Póliza (Registro) ─────────────────────────────── -->
+<app-policy-modal
+  [client]="client || null"
+  [showForm]="showAddPolicyModal"
+  (completed)="onAddPolicyCompleted()"
+  (cancelled)="onAddPolicyCancelled()">
+</app-policy-modal>
 
 <!-- ─── Modal de Detalle / Edición de Póliza ─────────────────────────────── -->
 <app-policy-detail

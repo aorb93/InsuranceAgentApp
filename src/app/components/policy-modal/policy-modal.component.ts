@@ -14,6 +14,7 @@ import { PolicyService } from '../../services/policy.service';
 export class PolicyModalComponent implements OnChanges {
   @Input() client: Client | null = null;
   @Input() showPrompt: boolean = false; // Muestra el mini modal: "¿Desea agregar pólizas?"
+  @Input() showForm: boolean = false;   // NUEVO: Permite abrir el formulario directamente
 
   @Output() completed = new EventEmitter<void>(); // Evento cuando se guardan las pólizas o se cierra
   @Output() cancelled = new EventEmitter<void>(); // Evento si el usuario responde "No"
@@ -32,6 +33,17 @@ export class PolicyModalComponent implements OnChanges {
     // Si cambia el cliente o se activa el prompt, reseteamos el formulario
     if (changes['client'] && this.client) {
       this.resetForms();
+    }
+
+    // NUEVO: Si 'showForm' cambia a true, abre el formulario directamente
+    if (changes['showForm']) {
+      if (this.showForm) {
+        this.showPolicySection = true;
+        this.policies.clear();
+        this.addPolicyField();
+      } else {
+        this.resetForms();
+      }
     }
   }
 
