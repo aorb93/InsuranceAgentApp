@@ -49,4 +49,8 @@ export class PolicyService {
   deletePolicy(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  getPoliciesByClientGuid(clientGuid: string): Observable<Policy[]> {
+   return this.http.get<Policy[]>(`${this.apiUrl}/client/guid/${clientGuid}`);
+  }
 }

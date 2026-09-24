@@ -1,5 +1,6 @@
 export interface Client {
   id?: number;
+  guid?: string;
   agentId?: string;
   firstName: string;
   lastName: string;

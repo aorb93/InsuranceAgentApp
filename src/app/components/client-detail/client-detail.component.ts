@@ -14,7 +14,7 @@ import { Policy } from '../../models/policy.model';
   styleUrls: ['./client-detail.component.css']
 })
 export class ClientDetailComponent implements OnInit {
-  clientId!: number;
+  clientGuid!: string;
   client?: Client;
   policies: Policy[] = [];
   loading: boolean = true;
@@ -27,8 +27,8 @@ export class ClientDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clientId = Number(this.route.snapshot.paramMap.get('id'));
-    if (this.clientId) {
+    this.clientGuid = this.route.snapshot.paramMap.get('guid') || '';
+    if (this.clientGuid) {
       this.loadClientData();
     }
   }
@@ -37,7 +37,7 @@ export class ClientDetailComponent implements OnInit {
     this.loading = true;
     
     // Obtener datos del cliente
-    this.clientService.getClientById(this.clientId).subscribe({
+    this.clientService.getClientByGuid(this.clientGuid).subscribe({
       next: (data) => {
         this.client = data;
         this.loadPolicies();
@@ -48,7 +48,7 @@ export class ClientDetailComponent implements OnInit {
 
   loadPolicies(): void {
     // Obtener pólizas asociadas al cliente
-    this.policyService.getPoliciesByClientId(this.clientId).subscribe({
+    this.policyService.getPoliciesByClientGuid(this.clientGuid).subscribe({
       next: (policies) => {
         this.policies = policies;
         this.loading = false;
