@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/client.model';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent, RouterLink],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
