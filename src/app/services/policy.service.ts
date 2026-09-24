@@ -16,13 +16,13 @@ export class PolicyService {
     return this.http.post<Policy>(this.apiUrl, policy);
   }
 
-  // Opcional: Para guardar múltiples pólizas en una sola llamada
-  createMultiplePolicies(clientId: number, policies: Policy[]): Observable<Policy[]> {
+  // Guardar múltiples pólizas vinculadas a un cliente por su GUID
+  createMultiplePolicies(clientGuid: string, policies: Policy[]): Observable<any> {
     const payload: CreateClientPoliciesRequest = {
-      clientId: clientId,
+      clientGuid: clientGuid,
       policies: policies
     };
-    return this.http.post<Policy[]>(`${this.apiUrl}/bulk`, payload);
+    return this.http.post<any>(`${this.apiUrl}/bulk`, payload);
   }
 
   // Obtener todas las pólizas
@@ -30,27 +30,23 @@ export class PolicyService {
     return this.http.get<Policy[]>(this.apiUrl);
   }
 
-  // Obtener póliza por ID
-  getPolicyById(id: number): Observable<Policy> {
-    return this.http.get<Policy>(`${this.apiUrl}/${id}`);
+  // Obtener póliza por GUID
+  getPolicyByGuid(guid: string): Observable<Policy> {
+    return this.http.get<Policy>(`${this.apiUrl}/${guid}`);
   }
 
-  // Obtener todas las pólizas asociadas a un cliente específico
-  getPoliciesByClientId(clientId: number): Observable<Policy[]> {
-    return this.http.get<Policy[]>(`${this.apiUrl}/client/${clientId}`);
-  }
-
-  // Actualizar póliza existente
-  updatePolicy(id: number, policy: Policy): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, policy);
-  }
-
-  // Eliminar póliza
-  deletePolicy(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
-  }
-
+  // Obtener todas las pólizas asociadas a un cliente específico por su GUID
   getPoliciesByClientGuid(clientGuid: string): Observable<Policy[]> {
-   return this.http.get<Policy[]>(`${this.apiUrl}/client/guid/${clientGuid}`);
+    return this.http.get<Policy[]>(`${this.apiUrl}/client/${clientGuid}`);
+  }
+
+  // Actualizar póliza existente por su GUID
+  updatePolicy(guid: string, policy: Policy): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${guid}`, policy);
+  }
+
+  // Eliminar póliza por su GUID
+  deletePolicy(guid: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${guid}`);
   }
 }

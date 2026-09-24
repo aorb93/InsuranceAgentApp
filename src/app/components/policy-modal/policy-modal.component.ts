@@ -92,15 +92,15 @@ export class PolicyModalComponent implements OnChanges {
 
   // Guardar pólizas en el backend
   onSubmitPolicies(): void {
-    if (this.policyForm.invalid || !this.client?.id) {
+    if (this.policyForm.invalid || !this.client?.guid) {
       this.policyForm.markAllAsTouched();
       return;
     }
 
     const rawPolicies = this.policies.value;
 
-    // Pasamos directamente el ID del cliente y el listado de pólizas
-    this.policyService.createMultiplePolicies(this.client.id, rawPolicies).subscribe({
+    // Pasamos el GUID del cliente y el listado de pólizas
+    this.policyService.createMultiplePolicies(this.client.guid, rawPolicies).subscribe({
       next: () => {
         this.resetForms();
         this.completed.emit();

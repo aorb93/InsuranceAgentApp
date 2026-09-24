@@ -23,7 +23,7 @@ export class ClientsComponent implements OnInit {
   isDeleteModalOpen: boolean = false;
   isEditMode: boolean = false;
   
-  selectedClientId: number | null = null;
+  selectedClientGuid: string | null = null;
   isLoading: boolean = false;
 
   selectedClientForPolicy: Client | null = null;
@@ -87,14 +87,14 @@ export class ClientsComponent implements OnInit {
 
   openCreateModal(): void {
     this.isEditMode = false;
-    this.selectedClientId = null;
+    this.selectedClientGuid = null;
     this.clientForm.reset({ isActive: true });
     this.isModalOpen = true;
   }
 
   openEditModal(client: Client): void {
     this.isEditMode = true;
-    this.selectedClientId = client.id || null;
+    this.selectedClientGuid = client.guid || null;
 
     // Formatear la fecha a YYYY-MM-DD para el <input type="date">
     let formattedBirthDate = '';
@@ -135,8 +135,8 @@ export class ClientsComponent implements OnInit {
 
     const clientData: Client = this.clientForm.value;
 
-    if (this.isEditMode && this.selectedClientId) {
-      this.clientService.updateClient(this.selectedClientId, clientData).subscribe({
+    if (this.isEditMode && this.selectedClientGuid) {
+      this.clientService.updateClient(this.selectedClientGuid, clientData).subscribe({
         next: () => {
           this.loadClients();
           this.closeModal();
@@ -160,19 +160,19 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  confirmDelete(id: number): void {
-    this.selectedClientId = id;
+  confirmDelete(guid: string): void {
+    this.selectedClientGuid = guid;
     this.isDeleteModalOpen = true;
   }
 
   closeDeleteModal(): void {
     this.isDeleteModalOpen = false;
-    this.selectedClientId = null;
+    this.selectedClientGuid = null;
   }
 
   executeDelete(): void {
-    if (this.selectedClientId) {
-      this.clientService.deleteClient(this.selectedClientId).subscribe({
+    if (this.selectedClientGuid) {
+      this.clientService.deleteClient(this.selectedClientGuid).subscribe({
         next: () => {
           this.loadClients();
           this.closeDeleteModal();

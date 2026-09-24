@@ -1,5 +1,9 @@
 export interface Policy {
   id?: number;
+  guid?: string;
+  clientId?: number;
+  clientGuid?: string;
+  clientName?: string;
   insuredFirstName: string;
   insuredLastName: string;
   insuredBirthDate?: string;
@@ -12,10 +16,12 @@ export interface Policy {
   netPremium: number;
   totalPremium: number;
   commissionPercentage: number;
+  createdAt?: string;
 }
 
-// Nueva interfaz para coincidir con CreateClientPoliciesDto del backend
+// Interfaz para coincidir con CreateClientPoliciesDto del backend
 export interface CreateClientPoliciesRequest {
-  clientId: number;
+  clientGuid: string;
   policies: Policy[];
+  clientId?: number;
 }
