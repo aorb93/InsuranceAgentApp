@@ -1,3 +1,4 @@
+/* ─── Layout Base ──────────────────────────────────────────────────────────── */
 .layout-container {
   height: 100vh;
   height: 100dvh;
@@ -6,7 +7,7 @@
   background-color: #f8fafc;
 }
 
-/* Sidebar General */
+/* ─── Sidebar Corporativo Nocturno ─────────────────────────────────────────── */
 .sidebar-custom {
   width: 250px;
   min-width: 250px;
@@ -17,7 +18,29 @@
   transition: transform 0.3s ease;
 }
 
-/* Sidebar Móvil */
+/* Navegación Sidebar */
+.sidebar-custom .nav-link {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-custom .nav-link:hover {
+  color: #f8fafc;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-custom .nav-link.active {
+  color: #ffffff;
+  background-color: #1e3a8a;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3);
+}
+
+/* ─── Sidebar Móvil ───────────────────────────────────────────────────────── */
 @media (max-width: 991.98px) {
   .sidebar-custom {
     position: fixed;
@@ -25,7 +48,7 @@
     left: 0;
     bottom: 0;
     transform: translateX(-100%);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
   }
 
   .sidebar-custom.show-sidebar {
@@ -38,8 +61,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(2px);
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(4px);
     z-index: 1030;
   }
 }
@@ -54,25 +77,31 @@
 .content-body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  background-color: #f8fafc;
 }
 
-/* --- ESTILOS DE LOS BOTONES SUPERIORES --- */
+/* ─── Encabezado Superior ──────────────────────────────────────────────────── */
+.header-top {
+  min-height: 58px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
 
 /* Botón Menú Móvil */
 .btn-menu-mobile {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: #334155;
   border: 1px solid #cbd5e1;
   transition: all 0.2s ease;
 }
 
 .btn-menu-mobile:active, .btn-menu-mobile:hover {
-  background-color: #e2e8f0;
+  background-color: #f1f5f9;
   color: #0f172a;
   border-color: #94a3b8;
 }
 
-/* Botón Salir (Cerrar Sesión) */
+/* Botón Salir */
 .btn-logout {
   background-color: #fef2f2;
   color: #dc2626;
@@ -88,11 +117,16 @@
 
 /* Avatar del Agente */
 .avatar-circle {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  font-size: 0.82rem;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(30, 58, 138, 0.25);
+  color: #ffffff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
