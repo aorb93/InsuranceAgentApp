@@ -1,0 +1,253 @@
+<!-- Modal de Detalle / Edición de Póliza -->
+<div class="modal-backdrop" *ngIf="show && policy">
+  <div class="modal-dialog modal-lg corporate-modal modal-dialog-centered">
+    <div class="modal-content custom-modal-card">
+
+      <!-- ── Encabezado ──────────────────────────────────── -->
+      <div class="modal-header corporate-header">
+        <h5 class="modal-title d-flex align-items-center gap-2">
+          <i class="bi" [class.bi-shield-check]="!isEditMode" [class.bi-pencil-square]="isEditMode"></i>
+          <span *ngIf="!isEditMode">Detalle de Póliza</span>
+          <span *ngIf="isEditMode">Editar Póliza</span>
+          <span class="badge bg-white bg-opacity-25 text-white ms-1 fw-normal" style="font-size: 0.78rem;">
+            #{{ policy.policyNumber }}
+          </span>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!-- MODO DETALLE (solo lectura)                        -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <ng-container *ngIf="!isEditMode">
+        <div class="modal-body p-3 p-md-4">
+
+          <!-- Sección: Asegurado -->
+          <div class="detail-section mb-4">
+            <div class="detail-section-title mb-3">
+              <i class="bi bi-person-fill me-1"></i> Asegurado
+            </div>
+            <div class="row g-3">
+              <div class="col-6 col-md-4">
+                <span class="detail-label">Nombre</span>
+                <span class="detail-value">{{ policy.insuredFirstName }}</span>
+              </div>
+              <div class="col-6 col-md-4">
+                <span class="detail-label">Apellido(s)</span>
+                <span class="detail-value">{{ policy.insuredLastName }}</span>
+              </div>
+              <div class="col-6 col-md-4">
+                <span class="detail-label">F. Nacimiento</span>
+                <span class="detail-value">
+                  {{ policy.insuredBirthDate ? (policy.insuredBirthDate | date:'dd/MM/yyyy') : '—' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección: Datos de la Póliza -->
+          <div class="detail-section mb-4">
+            <div class="detail-section-title mb-3">
+              <i class="bi bi-shield-fill me-1"></i> Póliza
+            </div>
+            <div class="row g-3">
+              <div class="col-6 col-md-3">
+                <span class="detail-label">Tipo</span>
+                <span class="badge bg-primary bg-opacity-10 text-primary fw-semibold px-2 py-1 mt-1 d-block" style="width: fit-content;">
+                  {{ policy.policyType }}
+                </span>
+              </div>
+              <div class="col-6 col-md-3">
+                <span class="detail-label">No. Póliza</span>
+                <span class="detail-value fw-bold">{{ policy.policyNumber }}</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <span class="detail-label">Aseguradora</span>
+                <span class="detail-value">{{ policy.company }}</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <span class="detail-label">Periodicidad</span>
+                <span class="detail-value">{{ policy.paymentFrequency }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección: Vigencia y Primas -->
+          <div class="detail-section mb-4">
+            <div class="detail-section-title mb-3">
+              <i class="bi bi-calendar-range me-1"></i> Vigencia y Primas
+            </div>
+            <div class="row g-3">
+              <div class="col-6 col-md-3">
+                <span class="detail-label">Inicio Vigencia</span>
+                <span class="detail-value">{{ policy.startDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <span class="detail-label">Fin Vigencia</span>
+                <span class="detail-value">{{ policy.endDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="col-6 col-md-2">
+                <span class="detail-label">Prima Neta</span>
+                <span class="detail-value fw-semibold text-dark">${{ policy.netPremium | number:'1.2-2' }}</span>
+              </div>
+              <div class="col-6 col-md-2">
+                <span class="detail-label">Prima Total</span>
+                <span class="detail-value fw-bold text-primary">${{ policy.totalPremium | number:'1.2-2' }}</span>
+              </div>
+              <div class="col-6 col-md-2">
+                <span class="detail-label">% Comisión</span>
+                <span class="detail-value">{{ policy.commissionPercentage }}%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fecha de Alta -->
+          <div class="text-end">
+            <small class="text-muted" style="font-size: 0.75rem;">
+              <i class="bi bi-clock me-1"></i>
+              Alta: {{ policy.createdAt ? (policy.createdAt | date:'dd/MM/yyyy HH:mm') : '—' }}
+            </small>
+          </div>
+
+        </div>
+
+        <!-- Footer modo detalle -->
+        <div class="modal-footer corporate-footer">
+          <button type="button" class="btn btn-outline-secondary btn-modal-action" (click)="close()">
+            Cerrar
+          </button>
+          <button type="button" class="btn btn-corporate-primary btn-modal-action" (click)="enterEditMode()">
+            <i class="bi bi-pencil-square me-1"></i> Editar
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!-- MODO EDICIÓN (formulario reactivo)                 -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <ng-container *ngIf="isEditMode">
+        <form [formGroup]="editForm" (ngSubmit)="saveChanges()" class="modal-form-wrapper">
+
+          <!-- Cuerpo con scroll -->
+          <div class="modal-body p-3 p-md-4">
+
+            <!-- Datos del asegurado -->
+            <div class="detail-section mb-4">
+              <div class="detail-section-title mb-3">
+                <i class="bi bi-person-fill me-1"></i> Asegurado
+              </div>
+              <div class="row g-2 g-md-3">
+                <div class="col-6 col-md-4">
+                  <label class="form-label font-subtitle">Nombre *</label>
+                  <input type="text" class="form-control corporate-input"
+                    formControlName="insuredFirstName"
+                    [class.is-invalid]="editForm.get('insuredFirstName')?.touched && editForm.get('insuredFirstName')?.invalid">
+                </div>
+                <div class="col-6 col-md-4">
+                  <label class="form-label font-subtitle">Apellido(s) *</label>
+                  <input type="text" class="form-control corporate-input"
+                    formControlName="insuredLastName"
+                    [class.is-invalid]="editForm.get('insuredLastName')?.touched && editForm.get('insuredLastName')?.invalid">
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label font-subtitle">F. Nacimiento</label>
+                  <input type="date" class="form-control corporate-input" formControlName="insuredBirthDate">
+                </div>
+              </div>
+            </div>
+
+            <!-- Datos de la póliza -->
+            <div class="detail-section mb-4">
+              <div class="detail-section-title mb-3">
+                <i class="bi bi-shield-fill me-1"></i> Póliza
+              </div>
+              <div class="row g-2 g-md-3">
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">Tipo *</label>
+                  <select class="form-select corporate-input" formControlName="policyType">
+                    <option value="Vida">Vida</option>
+                    <option value="Gastos Médicos">Gastos Médicos</option>
+                    <option value="Auto">Auto</option>
+                    <option value="Daños">Daños</option>
+                  </select>
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">No. Póliza *</label>
+                  <input type="text" class="form-control corporate-input"
+                    formControlName="policyNumber"
+                    [class.is-invalid]="editForm.get('policyNumber')?.touched && editForm.get('policyNumber')?.invalid">
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">Compañía *</label>
+                  <input type="text" class="form-control corporate-input"
+                    placeholder="Ej. GNP" formControlName="company"
+                    [class.is-invalid]="editForm.get('company')?.touched && editForm.get('company')?.invalid">
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">Periodicidad *</label>
+                  <select class="form-select corporate-input" formControlName="paymentFrequency">
+                    <option value="Mensual">Mensual</option>
+                    <option value="Trimestral">Trimestral</option>
+                    <option value="Semestral">Semestral</option>
+                    <option value="Anual">Anual</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vigencias y Primas -->
+            <div class="detail-section">
+              <div class="detail-section-title mb-3">
+                <i class="bi bi-calendar-range me-1"></i> Vigencia y Primas
+              </div>
+              <div class="row g-2 g-md-3">
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">Inicio Vigencia *</label>
+                  <input type="date" class="form-control corporate-input"
+                    formControlName="startDate"
+                    [class.is-invalid]="editForm.get('startDate')?.touched && editForm.get('startDate')?.invalid">
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label font-subtitle">Fin Vigencia *</label>
+                  <input type="date" class="form-control corporate-input"
+                    formControlName="endDate"
+                    [class.is-invalid]="editForm.get('endDate')?.touched && editForm.get('endDate')?.invalid">
+                </div>
+                <div class="col-6 col-md-2">
+                  <label class="form-label font-subtitle">Prima Neta *</label>
+                  <input type="number" class="form-control corporate-input"
+                    formControlName="netPremium" min="0">
+                </div>
+                <div class="col-6 col-md-2">
+                  <label class="form-label font-subtitle">Prima Total *</label>
+                  <input type="number" class="form-control corporate-input"
+                    formControlName="totalPremium" min="0">
+                </div>
+                <div class="col-12 col-md-2">
+                  <label class="form-label font-subtitle">% Comisión *</label>
+                  <input type="number" class="form-control corporate-input"
+                    formControlName="commissionPercentage" min="0" max="100">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Footer modo edición -->
+          <div class="modal-footer corporate-footer">
+            <button type="button" class="btn btn-outline-secondary btn-modal-action" (click)="cancelEdit()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-corporate-primary btn-modal-action" [disabled]="isSaving">
+              <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-1"></span>
+              <i *ngIf="!isSaving" class="bi bi-check-circle me-1"></i>
+              {{ isSaving ? 'Guardando...' : 'Guardar Cambios' }}
+            </button>
+          </div>
+
+        </form>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

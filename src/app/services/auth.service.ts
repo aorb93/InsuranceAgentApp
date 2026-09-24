@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface LoginRequest {
   email: string;
@@ -17,12 +18,16 @@ export interface AuthResponse {
   accessTokenExpiresAt: string;
 }
 
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   // Ajusta este puerto al HTTPS asignado a tu API en .NET
-  private apiUrl = 'https://localhost:7125/api/auth';
+  private apiUrl = `${environment.apiUrl || 'http://localhost:5000/api'}/auth`;
 
   constructor(private http: HttpClient) {}
 
@@ -48,5 +53,20 @@ export class AuthService {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('agentData');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+  }
+
+  refreshToken(): Observable<AuthResponse> {
+    const token = this.getRefreshToken();
+    return this.http.post<AuthResponse>(`${this.apiUrl}/refresh-token`, { refreshToken: token }).pipe(
+      tap(response => {
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem('agentData', JSON.stringify(response));
+      })
+    );
   }
 }

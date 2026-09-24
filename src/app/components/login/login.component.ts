@@ -35,9 +35,8 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        alert(`¡Bienvenido, ${res.fullName}!`);
         this.loading = false;
-        // Más adelante redirigiremos a /dashboard
+        this.router.navigate(['/dashboard']); // <-- Redirección al Dashboard
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'No se pudo conectar con el servidor.';

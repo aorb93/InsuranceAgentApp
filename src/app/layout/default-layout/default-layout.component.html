@@ -1,1 +1,124 @@
-<p>default-layout works!</p>
+<div class="layout-container d-flex">
+
+  <!-- Fondo oscuro al desplegar menú en móviles -->
+  <div 
+    *ngIf="isSidebarOpen" 
+    class="sidebar-backdrop d-lg-none" 
+    (click)="closeSidebar()">
+  </div>
+
+  <!-- Sidebar / Menú Lateral -->
+  <aside 
+    class="sidebar-custom text-white p-3 d-flex flex-column"
+    [class.show-sidebar]="isSidebarOpen">
+    
+    <!-- Encabezado del Sidebar -->
+    <div class="d-flex align-items-center justify-content-between mb-3 px-1 pt-1">
+      <div class="d-flex align-items-center gap-2.5">
+        <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background-color: #1e3a8a;">
+          <i class="bi bi-shield-lock-fill text-white fs-5"></i>
+        </div>
+        <div>
+          <h6 class="m-0 fw-bold text-white tracking-wide" style="font-size: 0.95rem;">SEGUROS APP</h6>
+          <small style="font-size: 0.68rem; color: #94a3b8;" class="text-uppercase fw-semibold">Gestión Corporativa</small>
+        </div>
+      </div>
+      
+      <!-- Botón X para cerrar en móvil -->
+      <button (click)="closeSidebar()" class="btn btn-sm text-secondary d-lg-none p-1 border-0" aria-label="Cerrar">
+        <i class="bi bi-x-lg fs-5 text-slate-400"></i>
+      </button>
+    </div>
+
+    <hr style="border-color: #1e293b; opacity: 0.8;" class="my-2">
+
+    <!-- Menú de Navegación -->
+    <ul class="nav nav-pills flex-column mb-auto pt-1">
+      <li class="nav-item mb-1">
+        <a routerLink="/dashboard" routerLinkActive="active" (click)="closeSidebar()" class="nav-link d-flex align-items-center gap-2.5">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a routerLink="/clients" routerLinkActive="active" (click)="closeSidebar()" class="nav-link d-flex align-items-center gap-2.5">
+          <i class="bi bi-people-fill"></i>
+          <span>Asegurados</span>
+        </a>
+      </li>
+    </ul>
+
+    <hr style="border-color: #1e293b; opacity: 0.8;" class="my-2">
+
+    <!-- Tarjeta del Agente dentro del Menú -->
+    <div class="p-2.5 d-flex align-items-center rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.08);">
+      <div class="avatar-circle me-2.5">
+        {{ agentName.charAt(0) }}
+      </div>
+      <div class="text-truncate">
+        <small class="d-block text-truncate text-white fw-semibold" style="font-size: 0.82rem;">{{ agentName }}</small>
+        <span style="font-size: 0.68rem; color: #10b981;" class="fw-semibold">● Agente Activo</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Área Principal -->
+  <div class="main-wrapper d-flex flex-column flex-grow-1">
+    
+    <!-- Navbar Superior -->
+    <header class="header-top px-3 d-flex justify-content-between align-items-center shadow-sm">
+      
+      <!-- Lado Izquierdo: Botón Menú (Móvil) / Título (Desktop) -->
+      <div class="d-flex align-items-center">
+        <button 
+          (click)="toggleSidebar()" 
+          class="btn btn-menu-mobile d-lg-none d-flex align-items-center gap-1.5 px-2.5 py-1 rounded-2"
+          type="button">
+          <i class="bi bi-list fs-5"></i>
+          <span class="fw-semibold" style="font-size: 0.8rem;">Menú</span>
+        </button>
+
+        <div class="d-none d-lg-block text-muted small fw-medium">
+          <span style="color: #1e3a8a;" class="fw-bold">Portal del Agente</span> &bull; Panel de Control
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Nombre + Botón Salir -->
+      <div class="d-flex align-items-center gap-2 gap-sm-3">
+        
+        <!-- Nombre del Agente -->
+        <div class="d-flex align-items-center">
+          <div class="avatar-circle me-2">
+            {{ agentName.charAt(0) }}
+          </div>
+          <div class="lh-1">
+            <span class="fw-semibold d-block text-truncate" style="max-width: 140px; font-size: 0.82rem; color: #1e293b;">{{ agentName }}</span>
+            <small class="text-muted d-none d-sm-block" style="font-size: 0.68rem;">Agente Autorizado</small>
+          </div>
+        </div>
+
+        <!-- Botón Salir -->
+        <button 
+          (click)="onLogout()" 
+          class="btn btn-logout d-flex align-items-center gap-1 px-2.5 py-1 rounded-2"
+          type="button" 
+          title="Cerrar Sesión">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="fw-semibold" style="font-size: 0.78rem;">Salir</span>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- Zona de Contenido con Scroll -->
+    <main class="content-body p-3 p-md-4 flex-grow-1">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-top py-2 px-3 text-center text-muted small" style="font-size: 0.75rem; color: #64748b !important;">
+      InsuranceAgentApp &copy; 2026 &bull; Todos los derechos reservados.
+    </footer>
+  </div>
+
+</div>

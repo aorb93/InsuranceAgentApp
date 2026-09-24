@@ -1,0 +1,148 @@
+/* ─── Variables y Reset Local ──────────────────────────────────────────────── */
+:host {
+  --navy-primary: #1e3a8a;
+  --navy-hover: #1e40af;
+  --steel-blue: #3b82f6;
+  --slate-bg: #f8fafc;
+  --slate-border: #e2e8f0;
+  --slate-input-border: #cbd5e1;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+}
+
+/* ─── Avatares ────────────────────────────────────────────────────────────── */
+.client-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  font-size: 0.85rem;
+  background-color: #dbeafe;
+  color: var(--navy-primary);
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Botones Corporativos ──────────────────────────────────────────────────── */
+.btn-corporate-primary {
+  background-color: var(--navy-primary);
+  color: #ffffff;
+  border: none;
+  font-weight: 500;
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-corporate-primary:hover {
+  background-color: var(--navy-hover);
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.25);
+}
+
+.btn-action-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--slate-border);
+  background-color: #ffffff;
+  color: var(--text-muted);
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-action-icon:hover {
+  border-color: var(--navy-primary);
+  color: var(--navy-primary);
+  background-color: #f1f5f9;
+}
+
+.btn-action-icon.danger:hover {
+  border-color: #ef4444;
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+/* ─── Inputs y Filtro ──────────────────────────────────────────────────────── */
+.corporate-search-input {
+  border: 1px solid var(--slate-input-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+}
+
+.corporate-search-input:focus {
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+/* ─── Tabla Corporativa ───────────────────────────────────────────────────── */
+.table-corporate thead {
+  background-color: #f8fafc;
+  border-bottom: 2px solid var(--slate-border);
+}
+
+.table-corporate th {
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Badges Corporativos ──────────────────────────────────────────────────── */
+.badge-active {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 600;
+  padding: 0.3em 0.65em;
+  border-radius: 50rem;
+}
+
+.badge-inactive {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  font-weight: 500;
+  padding: 0.3em 0.65em;
+  border-radius: 50rem;
+}
+
+/* ─── Modal Confirmación Eliminar ─────────────────────────────────────────── */
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background-color: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-dialog-custom {
+  background-color: #ffffff;
+  border: 1px solid var(--slate-border);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.2s ease-out;
+  max-width: 420px;
+  width: 100%;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

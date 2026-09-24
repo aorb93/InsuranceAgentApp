@@ -1,0 +1,222 @@
+<div class="container-fluid p-0">
+
+  <!-- Botón Regresar y Encabezado -->
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button class="btn btn-outline-secondary btn-sm px-3 py-1.5 d-inline-flex align-items-center gap-1" (click)="goBack()" title="Volver">
+      <i class="bi bi-arrow-left"></i>
+      <span class="d-none d-md-inline">Volver</span>
+    </button>
+    <div>
+      <h4 class="mb-0 fw-bold" style="color: #1e293b;">Expediente del Cliente</h4>
+      <p class="text-muted small m-0">Detalles del asegurado y desglose de pólizas asociadas.</p>
+    </div>
+  </div>
+
+  <!-- Spinner de Carga -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border" style="color: #1e3a8a;" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="text-muted small mt-2">Cargando expediente...</p>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div *ngIf="!loading && client" class="row g-4">
+
+    <!-- CARD 1: Información General del Cliente -->
+    <div class="col-12 col-lg-4">
+      <div class="card card-corporate h-100">
+        <div class="card-header-corporate d-flex justify-content-between align-items-center gap-2">
+          <h5 class="card-header-title mb-0 d-flex align-items-center gap-2 text-truncate">
+            <i class="bi bi-person-badge-fill"></i>
+            <span class="text-truncate">{{ client.firstName }} {{ client.lastName }}</span>
+          </h5>
+
+          <!-- Botón Editar Cliente -->
+          <button (click)="openEditModal()" class="btn btn-action-icon" title="Editar datos del cliente">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+        </div>
+
+        <div class="card-body p-3 p-md-4">
+          <div class="d-flex flex-column gap-3">
+            <div>
+              <span class="info-label">Nombre Completo</span>
+              <span class="info-value">{{ client.firstName }} {{ client.lastName }}</span>
+            </div>
+
+            <div>
+              <span class="info-label">Correo Electrónico</span>
+              <span class="info-value">{{ client.email || '—' }}</span>
+            </div>
+
+            <div>
+              <span class="info-label">Teléfono</span>
+              <span class="info-value">{{ client.phone || '—' }}</span>
+            </div>
+
+            <div>
+              <span class="info-label">RFC / ID</span>
+              <span class="info-value">{{ client.identificationNumber || '—' }}</span>
+            </div>
+
+            <div>
+              <span class="info-label">Fecha de Registro</span>
+              <span class="info-value">{{ client.createdAt ? (client.createdAt | date:'dd/MM/yyyy') : '—' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: Listado de Pólizas -->
+    <div class="col-12 col-lg-8">
+      <div class="card card-corporate overflow-hidden">
+        <div class="card-header-corporate d-flex justify-content-between align-items-center gap-2">
+          <h5 class="card-header-title mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-shield-check"></i>
+            <span>Pólizas Registradas ({{ policies.length || 0 }})</span>
+          </h5>
+          <button class="btn btn-corporate-primary d-inline-flex align-items-center gap-2" (click)="openAddPolicyModal()">
+            <i class="bi bi-plus-lg"></i>
+            <span>Agregar Póliza</span>
+          </button>
+        </div>
+
+        <div class="card-body p-0">
+
+          <!-- Mensaje de Sin Pólizas -->
+          <div *ngIf="!policies || policies.length === 0" class="text-center py-5">
+            <div class="text-muted mb-2 fs-1" style="color: #94a3b8 !important;">
+              <i class="bi bi-folder-x"></i>
+            </div>
+            <h6 class="fw-semibold text-dark">Sin pólizas registradas</h6>
+            <p class="text-muted small">Este cliente no cuenta con pólizas vinculadas actualmente.</p>
+          </div>
+
+          <div *ngIf="policies && policies.length > 0">
+
+            <!-- 💻 VISTA DESKTOP: Tabla Corporativa -->
+            <div class="table-responsive d-none d-md-block">
+              <table class="table table-corporate table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th class="ps-3 py-3">Ramo / Tipo</th>
+                    <th class="py-3">No. Póliza</th>
+                    <th class="py-3">Aseguradora</th>
+                    <th class="py-3">Vigencia</th>
+                    <th class="py-3">Prima Total</th>
+                    <th class="py-3">Periodicidad</th>
+                    <th class="pe-3 py-3 text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let policy of policies">
+                    <td class="ps-3 py-2.5">
+                      <span class="badge-policy-type">
+                        {{ policy.policyType }}
+                      </span>
+                    </td>
+                    <td class="fw-bold" style="color: #1e293b;">{{ policy.policyNumber }}</td>
+                    <td style="color: #334155;">{{ policy.company }}</td>
+                    <td>
+                      <small class="d-block text-muted">
+                        {{ policy.startDate | date:'dd/MM/yyyy' }} - {{ policy.endDate | date:'dd/MM/yyyy' }}
+                      </small>
+                    </td>
+                    <td class="fw-bold" style="color: #1e3a8a;">${{ policy.totalPremium | number:'1.2-2' }}</td>
+                    <td style="color: #475569;">{{ policy.paymentFrequency }}</td>
+                    <td class="pe-3 text-end">
+                      <button
+                        (click)="openPolicyDetail(policy)"
+                        class="btn btn-action-icon"
+                        title="Ver / Editar Detalle">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 📱 VISTA MÓVIL: Tarjetas -->
+            <div class="d-md-none p-3 d-flex flex-column gap-3">
+              <div *ngFor="let policy of policies" class="card border-0 shadow-sm rounded-3 p-3" style="border: 1px solid #e2e8f0 !important; background-color: #ffffff;">
+
+                <!-- Encabezado Móvil -->
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                  <span class="badge-policy-type">
+                    {{ policy.policyType }}
+                  </span>
+                  <span class="fw-bold" style="color: #1e293b;">
+                    #{{ policy.policyNumber }}
+                  </span>
+                </div>
+
+                <!-- Detalle de Datos Móvil -->
+                <div class="p-2 rounded-2 small my-2" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">Aseguradora:</span>
+                    <strong style="color: #1e293b;">{{ policy.company }}</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">Vigencia:</span>
+                    <strong style="color: #1e293b;">
+                      {{ policy.startDate | date:'dd/MM/yyyy' }} - {{ policy.endDate | date:'dd/MM/yyyy' }}
+                    </strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">Prima Total:</span>
+                    <strong style="color: #1e3a8a;">${{ policy.totalPremium | number:'1.2-2' }}</strong>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted">Pago:</span>
+                    <strong style="color: #1e293b;">{{ policy.paymentFrequency }}</strong>
+                  </div>
+                </div>
+
+                <!-- Botón Acción Móvil -->
+                <div class="d-flex justify-content-end mt-2 pt-2 border-top">
+                  <button
+                    (click)="openPolicyDetail(policy)"
+                    class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                    <i class="bi bi-eye-fill"></i> Ver Detalle
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Componente Modal de Cliente -->
+<app-client-modal
+  [client]="client || null"
+  [show]="isEditModalOpen"
+  (completed)="onClientUpdated()"
+  (cancelled)="closeEditModal()">
+</app-client-modal>
+
+<!-- Modal de Nueva Póliza -->
+<app-policy-modal
+  [client]="client || null"
+  [showForm]="showAddPolicyModal"
+  (completed)="onAddPolicyCompleted()"
+  (cancelled)="onAddPolicyCancelled()">
+</app-policy-modal>
+
+<!-- Modal de Detalle / Edición de Póliza -->
+<app-policy-detail
+  [policy]="selectedPolicy"
+  [show]="showPolicyDetail"
+  (closed)="closePolicyDetail()"
+  (updated)="onPolicyUpdated()">
+</app-policy-detail>
