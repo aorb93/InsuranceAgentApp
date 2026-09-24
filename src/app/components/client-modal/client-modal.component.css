@@ -1,9 +1,80 @@
+:host {
+  --navy-primary: #1e3a8a;
+  --steel-blue: #3b82f6;
+  --slate-border: #cbd5e1;
+}
+
+/* Modales Personalizadas */
 .modal-backdrop-custom {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  height: 100dvh;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(3px);
   z-index: 1050;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-dialog-custom {
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Inputs Corporativos */
+.corporate-input {
+  border: 1px solid var(--slate-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.corporate-input:focus {
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+/* Switch / Segmented Control Corporativo */
+.segmented-control {
+  display: inline-flex;
+  background-color: #f1f5f9;
+  border: 1px solid var(--slate-border);
+  border-radius: 8px;
+  padding: 3px;
+  width: 100%;
+}
+
+.segmented-control .segmented-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.segmented-control .segmented-btn.active {
+  background-color: var(--navy-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.segmented-control .segmented-btn:hover:not(.active) {
+  color: var(--navy-primary);
 }

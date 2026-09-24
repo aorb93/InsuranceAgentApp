@@ -1,50 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/client.model';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
+import { ClientModalComponent } from '../client-modal/client-modal.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent, RouterLink],
+  imports: [
+    CommonModule, 
+    PolicyModalComponent, 
+    ClientModalComponent, 
+    RouterLink
+  ],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
 export class ClientsComponent implements OnInit {
   clients: Client[] = [];
   filteredClients: Client[] = [];
-  clientForm: FormGroup;
   
   searchTerm: string = '';
   isModalOpen: boolean = false;
   isDeleteModalOpen: boolean = false;
-  isEditMode: boolean = false;
   
+  selectedClient: Client | null = null;
   selectedClientGuid: string | null = null;
   isLoading: boolean = false;
 
   selectedClientForPolicy: Client | null = null;
   showPolicyPrompt: boolean = false;
 
-  constructor(
-    private clientService: ClientService,
-    private fb: FormBuilder
-  ) {
-    this.clientForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      identificationNumber: [''],
-      birthDate: [''],
-      city: [''],
-      clientType: [1, [Validators.required]], // 1 = Cliente por defecto
-      isActive: [true]
-    });
-  }
+  constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
     this.loadClients();
@@ -86,78 +75,23 @@ export class ClientsComponent implements OnInit {
   }
 
   openCreateModal(): void {
-    this.isEditMode = false;
-    this.selectedClientGuid = null;
-    this.clientForm.reset({ isActive: true });
+    this.selectedClient = null;
     this.isModalOpen = true;
   }
 
   openEditModal(client: Client): void {
-    this.isEditMode = true;
-    this.selectedClientGuid = client.guid || null;
-
-    // Formatear la fecha a YYYY-MM-DD para el <input type="date">
-    let formattedBirthDate = '';
-    if (client.birthDate) {
-      formattedBirthDate = new Date(client.birthDate).toISOString().split('T')[0];
-    }
-
-    this.clientForm.patchValue({
-      firstName: client.firstName,
-      lastName: client.lastName,
-      email: client.email,
-      phone: client.phone,
-      identificationNumber: client.identificationNumber || '',
-      birthDate: formattedBirthDate,
-      city: client.city,
-      clientType: client.clientType ?? 1,
-      isActive: client.isActive
-    });
+    this.selectedClient = client;
     this.isModalOpen = true;
-  }
-
-  // Método para cambiar el Switch de Tipo de Registro (1 <-> 2)
-  setClientType(type: number): void {
-    this.clientForm.patchValue({ clientType: type });
   }
 
   closeModal(): void {
     this.isModalOpen = false;
-    this.clientForm.reset({ clientType: 1, isActive: true });
-    this.isEditMode = false;
+    this.selectedClient = null;
   }
 
-  saveClient(): void {
-    if (this.clientForm.invalid) {
-      this.clientForm.markAllAsTouched();
-      return;
-    }
-
-    const clientData: Client = this.clientForm.value;
-
-    if (this.isEditMode && this.selectedClientGuid) {
-      this.clientService.updateClient(this.selectedClientGuid, clientData).subscribe({
-        next: () => {
-          this.loadClients();
-          this.closeModal();
-        },
-        error: (err) => console.error('Error al actualizar cliente', err)
-      });
-    } else {
-      this.clientService.createClient(clientData).subscribe({
-        next: (createdClient: Client) => {
-          this.loadClients();
-          this.closeModal();
-
-          // 🔹 SI ES CLIENTE (valor 1), ACTIVAR EL MODAL DE PÓLIZA
-          if (createdClient && createdClient.clientType === 1) {
-            this.selectedClientForPolicy = createdClient;
-            this.showPolicyPrompt = true;
-          }
-        },
-        error: (err) => console.error('Error al crear cliente', err)
-      });
-    }
+  onClientSaved(): void {
+    this.closeModal();
+    this.loadClients();
   }
 
   confirmDelete(guid: string): void {
@@ -182,10 +116,10 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  // 🔹 MÉTODO PARA CERRAR Y LIMPIAR EL MODAL DE PÓLIZAS
+  // MÉTODO PARA CERRAR Y LIMPIAR EL MODAL DE PÓLIZAS
   onPolicyModalFinished(): void {
     this.showPolicyPrompt = false;
     this.selectedClientForPolicy = null;
-    this.loadClients(); // Recarga la tabla para reflejar cambios si aplica
+    this.loadClients();
   }
 }
