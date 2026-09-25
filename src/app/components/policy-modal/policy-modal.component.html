@@ -32,7 +32,7 @@
       <div class="modal-header corporate-header">
         <h5 class="modal-title d-flex align-items-center">
           <i class="bi bi-shield-plus me-2"></i>
-          Agregar Póliza(s) - {{ client?.firstName }} {{ client?.lastName }}
+          Agregar póliza(s) - {{ client?.firstName }} {{ client?.lastName }}
         </h5>
         <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
       </div>
@@ -85,11 +85,11 @@
                     </select>
                   </div>
                   <div class="col-6 col-md-3">
-                    <label class="form-label font-subtitle">No. Póliza *</label>
+                    <label class="form-label font-subtitle">No. póliza *</label>
                     <input type="text" class="form-control corporate-input" formControlName="policyNumber" />
                   </div>
                   <div class="col-6 col-md-3">
-                    <label class="form-label font-subtitle">Compañía *</label>
+                    <label class="form-label font-subtitle">Aseguradora *</label>
                     <input type="text" class="form-control corporate-input" placeholder="Ej. GNP" formControlName="company" />
                   </div>
                   <div class="col-6 col-md-3">
@@ -106,19 +106,19 @@
                 <!-- Vigencias y Primas -->
                 <div class="row g-2 g-md-3">
                   <div class="col-6 col-md-3">
-                    <label class="form-label font-subtitle">Inicio Vigencia *</label>
+                    <label class="form-label font-subtitle">Inicio vigencia *</label>
                     <input type="date" class="form-control corporate-input" formControlName="startDate" />
                   </div>
                   <div class="col-6 col-md-3">
-                    <label class="form-label font-subtitle">Fin Vigencia *</label>
+                    <label class="form-label font-subtitle">Fin vigencia *</label>
                     <input type="date" class="form-control corporate-input" formControlName="endDate" />
                   </div>
                   <div class="col-6 col-md-2">
-                    <label class="form-label font-subtitle">Prima Neta *</label>
+                    <label class="form-label font-subtitle">Prima neta *</label>
                     <input type="number" class="form-control corporate-input" formControlName="netPremium" />
                   </div>
                   <div class="col-6 col-md-2">
-                    <label class="form-label font-subtitle">Prima Total *</label>
+                    <label class="form-label font-subtitle">Prima total *</label>
                     <input type="number" class="form-control corporate-input" formControlName="totalPremium" />
                   </div>
                   <div class="col-12 col-md-2">

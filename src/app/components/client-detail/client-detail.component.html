@@ -7,7 +7,7 @@
       <span class="d-none d-md-inline">Volver</span>
     </button>
     <div>
-      <h4 class="mb-0 fw-bold" style="color: #1e293b;">Expediente del Cliente</h4>
+      <h4 class="mb-0 fw-bold" style="color: #1e293b;">Expediente del cliente</h4>
       <p class="text-muted small m-0">Detalles del asegurado y desglose de pólizas asociadas.</p>
     </div>
   </div>
@@ -75,11 +75,11 @@
         <div class="card-header-corporate d-flex justify-content-between align-items-center gap-2">
           <h5 class="card-header-title mb-0 d-flex align-items-center gap-2">
             <i class="bi bi-shield-check"></i>
-            <span>Pólizas Registradas ({{ policies.length || 0 }})</span>
+            <span>Pólizas registradas ({{ policies.length || 0 }})</span>
           </h5>
           <button class="btn btn-corporate-primary d-inline-flex align-items-center gap-2" (click)="openAddPolicyModal()">
             <i class="bi bi-plus-lg"></i>
-            <span>Agregar Póliza</span>
+            <span>Agregar póliza</span>
           </button>
         </div>
 
@@ -180,21 +180,16 @@
                   <button
                     (click)="openPolicyDetail(policy)"
                     class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
-                    <i class="bi bi-eye-fill"></i> Ver Detalle
+                    <i class="bi bi-eye-fill"></i>
                   </button>
                 </div>
-
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <!-- Componente Modal de Cliente -->

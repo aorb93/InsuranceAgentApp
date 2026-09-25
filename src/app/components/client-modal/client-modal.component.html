@@ -6,7 +6,7 @@
       <div class="modal-header corporate-header">
         <h5 class="modal-title d-flex align-items-center gap-2">
           <i class="bi" [class.bi-person-plus-fill]="!client?.guid" [class.bi-person-gear]="client?.guid"></i>
-          <span>{{ client?.guid ? 'Editar Asegurado' : 'Nuevo Asegurado' }}</span>
+          <span>{{ client?.guid ? 'Editar asegurado' : 'Nuevo asegurado' }}</span>
         </h5>
         <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
       </div>
@@ -78,7 +78,7 @@
             <div class="col-12 mt-2">
               <div class="form-check form-switch pt-1">
                 <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActiveSwitch">
-                <label class="form-check-label small fw-semibold" style="color: #334155;" for="isActiveSwitch">Cliente Activo</label>
+                <label class="form-check-label small fw-semibold" style="color: #334155;" for="isActiveSwitch">Cliente activo</label>
               </div>
             </div>
 
