@@ -4,7 +4,7 @@
   <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4">
     <div>
       <h4 class="fw-bold mb-1" style="color: #1e293b;">Panel de control</h4>
-      <p class="text-muted small mb-0">Resumen general de tu cartera de asegurados</p>
+      <p class="text-muted small mb-0">Resumen general de tu cartera de clientes</p>
     </div>
     <div>
       <span class="badge-secure d-inline-flex align-items-center gap-1.5">
@@ -16,12 +16,12 @@
   <!-- Tarjetas de Métricas -->
   <div class="row g-3 g-md-4 mb-4">
 
-    <!-- Asegurados Totales Activos -->
+    <!-- Clientes Totales Activos -->
     <div class="col-12 col-sm-6 col-md-4">
       <div class="card card-metric p-3 p-md-4">
         <div class="d-flex align-items-center justify-content-between">
           <div>
-            <span class="metric-label d-block mb-1">Asegurados Activos</span>
+            <span class="metric-label d-block mb-1">Clientes Activos</span>
             <h2 class="metric-value mb-0">
               <span *ngIf="!isLoading">{{ metrics.totalActiveClients }}</span>
               <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-secondary" role="status"></span>
@@ -117,7 +117,7 @@
       <div>
         <h6 class="fw-bold mb-1" style="color: #1e3a8a; font-size: 0.95rem;">Bienvenido al portal de gestión</h6>
         <p class="text-muted small mb-0" style="line-height: 1.45;">
-          Selecciona <strong style="color: #1e293b;">Asegurados</strong> en el menú lateral para consultar, registrar o editar clientes de tu cartera.
+          Selecciona <strong style="color: #1e293b;">Clientes</strong> en el menú lateral para consultar, registrar o editar clientes de tu cartera.
         </p>
       </div>
     </div>

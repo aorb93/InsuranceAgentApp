@@ -6,7 +6,7 @@
       <div class="modal-header corporate-header">
         <h5 class="modal-title d-flex align-items-center gap-2">
           <i class="bi" [class.bi-person-plus-fill]="!client?.guid" [class.bi-person-gear]="client?.guid"></i>
-          <span>{{ client?.guid ? 'Editar asegurado' : 'Nuevo asegurado' }}</span>
+          <span>{{ client?.guid ? 'Editar cliente' : 'Nuevo cliente' }}</span>
         </h5>
         <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
       </div>
