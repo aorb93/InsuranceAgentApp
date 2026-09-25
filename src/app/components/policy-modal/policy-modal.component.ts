@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Client } from '../../models/client.model';
 import { PolicyService } from '../../services/policy.service';
+import { CatalogItem } from '../../models/catalog.model';
+import { CatalogService } from '../../services/catalog.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-policy-modal',
@@ -22,11 +25,20 @@ export class PolicyModalComponent implements OnChanges {
   policyForm!: FormGroup;
   showPolicySection: boolean = false; // Despliega el formulario de pólizas
 
+  // Listas dinámicas para los combos
+  policyTypes: CatalogItem[] = [];
+  paymentFrequencies: CatalogItem[] = [];
+
   constructor(
     private fb: FormBuilder,
-    private policyService: PolicyService
+    private policyService: PolicyService,
+    private catalogService: CatalogService
   ) {
     this.initPolicyForm();
+  }
+
+  ngOnInit(): void {
+    this.loadCatalogs();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,6 +57,19 @@ export class PolicyModalComponent implements OnChanges {
         this.resetForms();
       }
     }
+  }
+
+  private loadCatalogs(): void {
+    forkJoin({
+      types: this.catalogService.getPolicyTypes(),
+      frequencies: this.catalogService.getPaymentFrequencies()
+    }).subscribe({
+      next: (res) => {
+        this.policyTypes = res.types;
+        this.paymentFrequencies = res.frequencies;
+      },
+      error: (err) => console.error('Error al cargar catálogos de pólizas:', err)
+    });
   }
 
   initPolicyForm(): void {

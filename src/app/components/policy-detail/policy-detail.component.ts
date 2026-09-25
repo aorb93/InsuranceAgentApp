@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Policy } from '../../models/policy.model';
 import { PolicyService } from '../../services/policy.service';
+import { CatalogItem } from '../../models/catalog.model';
+import { CatalogService } from '../../services/catalog.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-policy-detail',
@@ -28,11 +31,20 @@ export class PolicyDetailComponent implements OnChanges {
 
   editForm!: FormGroup;
 
+  // Listas dinámicas para los combos
+  policyTypes: CatalogItem[] = [];
+  paymentFrequencies: CatalogItem[] = [];
+
   constructor(
     private fb: FormBuilder,
-    private policyService: PolicyService
+    private policyService: PolicyService,
+    private catalogService: CatalogService
   ) {
     this.buildForm();
+  }
+
+  ngOnInit(): void {
+    this.loadCatalogs();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -130,5 +142,18 @@ export class PolicyDetailComponent implements OnChanges {
     this.isEditMode = false;
     this.isSaving = false;
     this.closed.emit();
+  }
+
+  private loadCatalogs(): void {
+    forkJoin({
+      types: this.catalogService.getPolicyTypes(),
+      frequencies: this.catalogService.getPaymentFrequencies()
+    }).subscribe({
+      next: (res) => {
+        this.policyTypes = res.types;
+        this.paymentFrequencies = res.frequencies;
+      },
+      error: (err) => console.error('Error al cargar catálogos de pólizas:', err)
+    });
   }
 }
