@@ -50,15 +50,15 @@
 
     <hr style="border-color: #1e293b; opacity: 0.8;" class="my-2">
 
-    <!-- Tarjeta del Agente dentro del Menú -->
-    <div class="p-2.5 d-flex align-items-center rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.08);">
-      <div class="avatar-circle me-2.5">
-        {{ agentName.charAt(0) }}
-      </div>
-      <div class="text-truncate">
-        <small class="d-block text-truncate text-white fw-semibold" style="font-size: 0.82rem;">{{ agentName }}</small>
-        <span style="font-size: 0.68rem; color: #10b981;" class="fw-semibold">● Agente activo</span>
-      </div>
+    <!-- Botón Salir en la parte inferior del Menú -->
+    <div class="pt-1">
+      <button 
+        (click)="onLogout()" 
+        class="btn btn-logout-sidebar w-100 d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-3"
+        type="button">
+        <i class="bi bi-box-arrow-right fs-6"></i>
+        <span class="fw-semibold" style="font-size: 0.85rem;">Cerrar sesión</span>
+      </button>
     </div>
   </aside>
 
@@ -83,31 +83,17 @@
         </div>
       </div>
 
-      <!-- Lado Derecho: Nombre + Botón Salir -->
-      <div class="d-flex align-items-center gap-2 gap-sm-3">
-        
-        <!-- Nombre del Agente -->
-        <div class="d-flex align-items-center">
-          <div class="avatar-circle me-2">
-            {{ agentName.charAt(0) }}
-          </div>
-          <div class="lh-1">
-            <span class="fw-semibold d-block text-truncate" style="max-width: 140px; font-size: 0.82rem; color: #1e293b;">{{ agentName }}</span>
-            <small class="text-muted d-none d-sm-block" style="font-size: 0.68rem;">Agente autorizado</small>
-          </div>
+      <!-- Lado Derecho: Nombre del Agente -->
+      <div class="d-flex align-items-center">
+        <div class="avatar-circle me-2">
+          {{ agentName.charAt(0) }}
         </div>
-
-        <!-- Botón Salir -->
-        <button 
-          (click)="onLogout()" 
-          class="btn btn-logout d-flex align-items-center gap-1 px-2.5 py-1 rounded-2"
-          type="button" 
-          title="Cerrar Sesión">
-          <i class="bi bi-box-arrow-right"></i>
-          <span class="fw-semibold" style="font-size: 0.78rem;">Salir</span>
-        </button>
-
+        <div class="lh-1">
+          <span class="fw-semibold d-block text-truncate" style="max-width: 160px; font-size: 0.82rem; color: #1e293b;">{{ agentName }}</span>
+          <small class="text-muted d-none d-sm-block" style="font-size: 0.68rem;">Agente autorizado</small>
+        </div>
       </div>
+
     </header>
 
     <!-- Zona de Contenido con Scroll -->

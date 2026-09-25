@@ -40,6 +40,21 @@
   box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3);
 }
 
+/* Botón Salir dentro del Sidebar Nocturno */
+.btn-logout-sidebar {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-logout-sidebar:hover,
+.btn-logout-sidebar:active {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
 /* ─── Sidebar Móvil ───────────────────────────────────────────────────────── */
 @media (max-width: 991.98px) {
   .sidebar-custom {
@@ -99,20 +114,6 @@
   background-color: #f1f5f9;
   color: #0f172a;
   border-color: #94a3b8;
-}
-
-/* Botón Salir */
-.btn-logout {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  transition: all 0.2s ease;
-}
-
-.btn-logout:active, .btn-logout:hover {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  border-color: #fca5a5;
 }
 
 /* Avatar del Agente */
