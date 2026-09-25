@@ -68,19 +68,25 @@ export class PolicyModalComponent implements OnChanges {
       insuredFirstName: [this.client?.firstName || '', Validators.required],
       insuredLastName: [this.client?.lastName || '', Validators.required],
       insuredBirthDate: [formattedBirthDate],
-      policyType: ['Vida', Validators.required],
+      policyType: ['', Validators.required], // Vacío por defecto
       policyNumber: ['', Validators.required],
       company: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      paymentFrequency: ['Anual', Validators.required],
-      netPremium: [0, [Validators.required, Validators.min(0)]],
-      totalPremium: [0, [Validators.required, Validators.min(0)]],
-      commissionPercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
+      paymentFrequency: ['', Validators.required], // Vacío por defecto
+      netPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
+      totalPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
+      commissionPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]] // Vacío por defecto
     });
   }
 
   addPolicyField(): void {
+    // Si ya existen elementos en el array y la estructura es inválida, no permite agregar otra
+    if (this.policies.length > 0 && this.policies.invalid) {
+      this.policies.markAllAsTouched();
+      return;
+    }
+
     this.policies.push(this.newPolicyGroup());
   }
 

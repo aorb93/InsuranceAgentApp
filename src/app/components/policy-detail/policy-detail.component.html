@@ -37,7 +37,7 @@
                 <span class="detail-value">{{ policy.insuredLastName }}</span>
               </div>
               <div class="col-6 col-md-4">
-                <span class="detail-label">F. Nacimiento</span>
+                <span class="detail-label">Fecha de nacimiento</span>
                 <span class="detail-value">
                   {{ policy.insuredBirthDate ? (policy.insuredBirthDate | date:'dd/MM/yyyy') : '—' }}
                 </span>
@@ -241,7 +241,7 @@
             <button type="submit" class="btn btn-corporate-primary btn-modal-action" [disabled]="isSaving">
               <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-1"></span>
               <i *ngIf="!isSaving" class="bi bi-check-circle me-1"></i>
-              {{ isSaving ? 'Guardando...' : 'Guardar Cambios' }}
+              {{ isSaving ? 'Guardando...' : 'Guardar cambios' }}
             </button>
           </div>
 

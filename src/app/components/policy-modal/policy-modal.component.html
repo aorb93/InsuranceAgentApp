@@ -44,8 +44,8 @@
         <div class="modal-body p-3 p-md-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-secondary font-subtitle">Capture la información de las pólizas a vincular.</span>
-            <button type="button" class="btn btn-sm btn-outline-corporate" (click)="addPolicyField()">
-              <i class="bi bi-plus-circle me-1"></i> <span class="d-none d-sm-inline">Agregar otra</span> Póliza
+            <button type="button" class="btn btn-sm btn-outline-corporate" (click)="addPolicyField()" [disabled]="policies.invalid">
+              <i class="bi bi-plus-circle me-1"></i> <span class="d-none d-sm-inline">Agregar otra</span> póliza
             </button>
           </div>
 
@@ -68,7 +68,7 @@
                     <input type="text" class="form-control corporate-input" formControlName="insuredLastName" />
                   </div>
                   <div class="col-12 col-md-4">
-                    <label class="form-label font-subtitle">F. Nacimiento</label>
+                    <label class="form-label font-subtitle">Fecha de nacimiento</label>
                     <input type="date" class="form-control corporate-input" formControlName="insuredBirthDate" />
                   </div>
                 </div>
@@ -78,6 +78,7 @@
                   <div class="col-6 col-md-3">
                     <label class="form-label font-subtitle">Tipo *</label>
                     <select class="form-select corporate-input" formControlName="policyType">
+                      <option value="" disabled selected>Seleccione...</option>
                       <option value="Vida">Vida</option>
                       <option value="Gastos Médicos">Gastos Médicos</option>
                       <option value="Auto">Auto</option>
@@ -95,6 +96,7 @@
                   <div class="col-6 col-md-3">
                     <label class="form-label font-subtitle">Periodicidad *</label>
                     <select class="form-select corporate-input" formControlName="paymentFrequency">
+                      <option value="" disabled selected>Seleccione...</option>
                       <option value="Mensual">Mensual</option>
                       <option value="Trimestral">Trimestral</option>
                       <option value="Semestral">Semestral</option>
@@ -138,7 +140,7 @@
             </button>
             
             <button type="submit" class="btn btn-corporate-primary btn-modal-action">
-              <i class="bi bi-shield-check me-1"></i> Guardar Póliza<span class="d-none d-sm-inline">(s)</span>
+              <i class="bi bi-shield-check me-1"></i> Guardar póliza<span class="d-none d-sm-inline">(s)</span>
             </button>
         </div>
 
