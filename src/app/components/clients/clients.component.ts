@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/client.model';
-import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
+//import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 import { ClientModalComponent } from '../client-modal/client-modal.component';
 import { RouterLink } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule, 
-    PolicyModalComponent, 
+    //PolicyModalComponent, 
     ClientModalComponent, 
     RouterLink
   ],
@@ -30,8 +30,8 @@ export class ClientsComponent implements OnInit {
   selectedClientGuid: string | null = null;
   isLoading: boolean = false;
 
-  selectedClientForPolicy: Client | null = null;
-  showPolicyPrompt: boolean = false;
+  //selectedClientForPolicy: Client | null = null;
+  //showPolicyPrompt: boolean = false;
 
   constructor(private clientService: ClientService) {}
 
@@ -114,12 +114,5 @@ export class ClientsComponent implements OnInit {
         error: (err) => console.error('Error al eliminar cliente', err)
       });
     }
-  }
-
-  // MÉTODO PARA CERRAR Y LIMPIAR EL MODAL DE PÓLIZAS
-  onPolicyModalFinished(): void {
-    this.showPolicyPrompt = false;
-    this.selectedClientForPolicy = null;
-    this.loadClients();
   }
 }

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
+import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 
 @Component({
   selector: 'app-client-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent],
   templateUrl: './client-modal.component.html',
   styleUrls: ['./client-modal.component.css']
 })
@@ -18,6 +19,11 @@ export class ClientModalComponent implements OnChanges {
   @Output() cancelled = new EventEmitter<void>();
 
   clientForm: FormGroup;
+  createdClient: Client | null = null;
+
+  // Banderas de control de vistas internas
+  showClientForm: boolean = true;
+  showPolicyPrompt: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -83,9 +89,35 @@ export class ClientModalComponent implements OnChanges {
       });
     } else {
       this.clientService.createClient(clientData).subscribe({
-        next: () => this.completed.emit(),
+        next: (res: any) => {
+          this.createdClient = res?.data ? res.data : res;
+
+          // Evalúa el tipo de cliente enviado o retornado por la API
+          const isClientType = (this.createdClient?.clientType ?? clientData.clientType) === 1;
+
+          if (isClientType) {
+            // Si es tipo Cliente (1), muestra el prompt de pólizas
+            this.showClientForm = false;
+            this.showPolicyPrompt = true;
+          } else {
+            // Si es Prospecto (2), finaliza el flujo y cierra el modal
+            this.completed.emit();
+          }
+        },
         error: (err) => console.error('Error al crear el cliente:', err)
       });
     }
+  }
+
+  onPolicyModalFinished(): void {
+    this.resetModalState();
+    this.completed.emit();
+  }
+
+  private resetModalState(): void {
+    this.showClientForm = true;
+    this.showPolicyPrompt = false;
+    this.createdClient = null;
+    this.clientForm.reset({ clientType: 1, isActive: true });
   }
 }

@@ -165,11 +165,3 @@
   (completed)="onClientSaved()"
   (cancelled)="closeModal()">
 </app-client-modal>
-
-<!-- Componente Modal de Pólizas -->
-<app-policy-modal
-  [client]="selectedClientForPolicy"
-  [showPrompt]="showPolicyPrompt"
-  (completed)="onPolicyModalFinished()"
-  (cancelled)="onPolicyModalFinished()">
-</app-policy-modal>

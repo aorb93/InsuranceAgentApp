@@ -1,4 +1,4 @@
-<div class="modal-backdrop" *ngIf="show">
+<div class="modal-backdrop" *ngIf="show && showClientForm">
   <div class="modal-dialog modal-dialog-centered corporate-modal">
     <div class="modal-content custom-modal-card">
 
@@ -98,3 +98,12 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Pólizas integrado directamente dentro del flujo de creación de cliente -->
+<app-policy-modal
+  *ngIf="showPolicyPrompt"
+  [client]="createdClient"
+  [showPrompt]="true"
+  (completed)="onPolicyModalFinished()"
+  (cancelled)="onPolicyModalFinished()">
+</app-policy-modal>
