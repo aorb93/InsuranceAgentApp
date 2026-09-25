@@ -15,7 +15,9 @@ export class DashboardComponent implements OnInit {
   metrics: DashboardMetrics = {
     totalActiveClients: 0,
     activePolicies: 0,
-    expiringPolicies: 0
+    expiringPolicies: 0,
+    totalNetPremium: 0,
+    totalCommissions: 0
   };
   isLoading = true;
 

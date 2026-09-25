@@ -33,8 +33,9 @@
           </h5>
 
           <!-- Botón Editar Cliente -->
-          <button (click)="openEditModal()" class="btn btn-action-icon" title="Editar datos del cliente">
+          <button class="btn btn-outline-secondary btn-sm px-3 py-1.5 d-inline-flex align-items-center gap-1" (click)="openEditModal()" title="Editar datos del cliente">
             <i class="bi bi-pencil-fill"></i>
+            <span class="d-none d-md-inline">Editar cliente</span>
           </button>
         </div>
 
@@ -79,7 +80,7 @@
           </h5>
           <button class="btn btn-corporate-primary d-inline-flex align-items-center gap-2" (click)="openAddPolicyModal()">
             <i class="bi bi-plus-lg"></i>
-            <span>Agregar póliza</span>
+            <span class="d-none d-sm-inline">Agregar póliza</span>
           </button>
         </div>
 

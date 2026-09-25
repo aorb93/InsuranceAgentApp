@@ -7,6 +7,8 @@ export interface DashboardMetrics {
   totalActiveClients: number;
   activePolicies: number;
   expiringPolicies: number;
+  totalNetPremium: number;
+  totalCommissions: number;
 }
 
 @Injectable({
