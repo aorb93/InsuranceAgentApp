@@ -126,7 +126,7 @@
                       </small>
                     </td>
                     <td class="fw-bold" style="color: #1e3a8a;">${{ policy.totalPremium | number:'1.2-2' }}</td>
-                    <td style="color: #475569;">{{ policy.paymentFrequency }}</td>
+                    <td style="color: #475569;">{{ policy.paymentFrequency }}
                     <td class="pe-3 text-end">
                       <button
                         (click)="openPolicyDetail(policy)"
@@ -145,7 +145,7 @@
               <div *ngFor="let policy of policies" class="card border-0 shadow-sm rounded-3 p-3" style="border: 1px solid #e2e8f0 !important; background-color: #ffffff;">
 
                 <!-- Encabezado Móvil -->
-                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb|-2 border-bottom">
                   <span class="badge-policy-type">
                     {{ policy.policyType }}
                   </span>

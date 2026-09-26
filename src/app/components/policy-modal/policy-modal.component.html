@@ -77,7 +77,7 @@
                 <div class="row g-2 g-md-3 mb-2 mb-md-3">
                   <div class="col-6 col-md-3">
                     <label class="form-label font-subtitle">Tipo *</label>
-                    <select class="form-select corporate-input" formControlName="policyType">
+                    <select class="form-select corporate-input" formControlName="policyTypeId">
                       <option value="" disabled selected>Seleccione...</option>
                       <option *ngFor="let item of policyTypes" [value]="item.id">
                         {{ item.name }}
@@ -94,7 +94,7 @@
                   </div>
                   <div class="col-6 col-md-3">
                     <label class="form-label font-subtitle">Periodicidad *</label>
-                    <select class="form-select corporate-input" formControlName="paymentFrequency">
+                    <select class="form-select corporate-input" formControlName="paymentFrequencyId">
                       <option value="" disabled selected>Seleccione...</option>
                       <option *ngFor="let item of paymentFrequencies" [value]="item.id">
                         {{ item.name }}

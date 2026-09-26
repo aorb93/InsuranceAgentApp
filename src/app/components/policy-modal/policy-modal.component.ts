@@ -93,12 +93,12 @@ export class PolicyModalComponent implements OnChanges {
       insuredFirstName: [this.client?.firstName || '', Validators.required],
       insuredLastName: [this.client?.lastName || '', Validators.required],
       insuredBirthDate: [formattedBirthDate],
-      policyType: ['', Validators.required], // Vacío por defecto
+      policyTypeId: ['', Validators.required], // Vacío por defecto
       policyNumber: ['', Validators.required],
       company: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      paymentFrequency: ['', Validators.required], // Vacío por defecto
+      paymentFrequencyId: ['', Validators.required], // Vacío por defecto
       netPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
       totalPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
       commissionPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]] // Vacío por defecto

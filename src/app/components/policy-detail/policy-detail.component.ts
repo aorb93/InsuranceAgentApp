@@ -67,12 +67,12 @@ export class PolicyDetailComponent implements OnChanges {
       insuredFirstName:     ['', [Validators.required, Validators.minLength(2)]],
       insuredLastName:      ['', [Validators.required, Validators.minLength(2)]],
       insuredBirthDate:     [''],
-      policyType:           ['', Validators.required],
+      policyTypeId:           ['', Validators.required],
       policyNumber:         ['', Validators.required],
       company:              ['', Validators.required],
       startDate:            ['', Validators.required],
       endDate:              ['', Validators.required],
-      paymentFrequency:     ['', Validators.required],
+      paymentFrequencyId:     ['', Validators.required],
       netPremium:           [0, [Validators.required, Validators.min(0)]],
       totalPremium:         [0, [Validators.required, Validators.min(0)]],
       commissionPercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
@@ -88,11 +88,13 @@ export class PolicyDetailComponent implements OnChanges {
         ? new Date(policy.insuredBirthDate).toISOString().split('T')[0]
         : '',
       policyType:           policy.policyType,
+      policyTypeId:         policy.policyTypeId,
       policyNumber:         policy.policyNumber,
       company:              policy.company,
       startDate:            new Date(policy.startDate).toISOString().split('T')[0],
       endDate:              new Date(policy.endDate).toISOString().split('T')[0],
       paymentFrequency:     policy.paymentFrequency,
+      paymentFrequencyId:   policy.paymentFrequencyId,
       netPremium:           policy.netPremium,
       totalPremium:         policy.totalPremium,
       commissionPercentage: policy.commissionPercentage
