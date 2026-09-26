@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
@@ -26,6 +27,8 @@ export class ClientModalComponent implements OnChanges {
   showClientForm: boolean = true;
   showPolicyPrompt: boolean = false;
 
+  maxDate: string = '';
+
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService
@@ -37,11 +40,15 @@ export class ClientModalComponent implements OnChanges {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       identificationNumber: [''],
-      birthDate: [''],
+      birthDate: ['', [Validators.required, minimumAgeValidator(18)]],
       city: [''],
       clientType: [1, [Validators.required]],
       isActive: [true]
     });
+  }
+
+  ngOnInit(): void {
+    this.setMaxDate();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -128,4 +135,42 @@ export class ClientModalComponent implements OnChanges {
     
     this.clientForm.get(controlName)?.setValue(upperValue, { emitEvent: false });
   }
+
+  private setMaxDate(): void {
+    const today = new Date();
+    const year = today.getFullYear() - 18;
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+
+    // Formato YYYY-MM-DD requerido por el input type="date"
+    this.maxDate = `${year}-${month}-${day}`;
+  }
+
+  isBirthDateInvalid(): boolean {
+    const control = this.clientForm.get('birthDate');
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+}
+
+export function minimumAgeValidator(minAge: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+
+    const birthDate = new Date(control.value);
+
+    // Si la fecha está mal formada o incompleta al escribir manualmente
+    if (isNaN(birthDate.getTime())) {
+      return { invalidDate: true };
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age >= minAge ? null : { underAge: true };
+  };
 }

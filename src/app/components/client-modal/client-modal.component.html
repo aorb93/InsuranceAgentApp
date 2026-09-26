@@ -44,12 +44,24 @@
             <div class="col-6">
               <label class="form-label font-subtitle mb-1">RFC</label>
               <input type="text" formControlName="identificationNumber" class="form-control corporate-input text-uppercase" 
-              placeholder="XAXX010101000" (input)="toUppercase($event, 'identificationNumber')">>
+              placeholder="XAXX010101000" (input)="toUppercase($event, 'identificationNumber')">
             </div>
 
             <div class="col-6">
               <label class="form-label font-subtitle mb-1">Fecha de Nacimiento</label>
-              <input type="date" class="form-control corporate-input" formControlName="birthDate" />
+              <input type="date" class="form-control corporate-input" formControlName="birthDate" [max]="maxDate" [class.is-invalid]="isBirthDateInvalid()" />
+              <!-- Mensajes de error en rojo -->
+              <div *ngIf="isBirthDateInvalid()" class="invalid-feedback d-block">
+                <span *ngIf="clientForm.get('birthDate')?.hasError('underAge') || clientForm.get('birthDate')?.hasError('max')">
+                  El cliente debe ser mayor de 18 años.
+                </span>
+                <span *ngIf="clientForm.get('birthDate')?.hasError('invalidDate')">
+                  Ingresa una fecha válida.
+                </span>
+                <span *ngIf="clientForm.get('birthDate')?.hasError('required')">
+                  La fecha de nacimiento es obligatoria.
+                </span>
+              </div>
             </div>
 
             <div class="col-6">
