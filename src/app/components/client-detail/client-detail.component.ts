@@ -82,7 +82,7 @@ export class ClientDetailComponent implements OnInit {
 
   loadPolicies(): void {
     // Obtener pólizas asociadas al cliente
-    this.policyService.getPoliciesByClientGuid(this.clientGuid).subscribe({
+    this.policyService.getPoliciesByClient(this.clientGuid).subscribe({
       next: (policies) => {
         this.policies = policies;
         this.loading = false;

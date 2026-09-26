@@ -12,41 +12,44 @@ export class PolicyService {
 
   constructor(private http: HttpClient) {}
 
-  createPolicy(policy: Policy): Observable<Policy> {
-    return this.http.post<Policy>(this.apiUrl, policy);
+  /**
+   * Obtiene todas las pólizas vinculadas a un cliente por su GUID,
+   * incluyendo la lista de asegurados de cada póliza.
+   */
+  getPoliciesByClient(clientGuid: string): Observable<Policy[]> {
+    return this.http.get<Policy[]>(`${this.apiUrl}/client/${clientGuid}`);
   }
 
-  // Guardar múltiples pólizas vinculadas a un cliente por su GUID
-  createMultiplePolicies(clientGuid: string, policies: Policy[]): Observable<any> {
-    const payload: CreateClientPoliciesRequest = {
-      clientGuid: clientGuid,
-      policies: policies
-    };
-    return this.http.post<any>(`${this.apiUrl}/bulk`, payload);
-  }
-
-  // Obtener todas las pólizas
-  getAllPolicies(): Observable<Policy[]> {
-    return this.http.get<Policy[]>(this.apiUrl);
-  }
-
-  // Obtener póliza por GUID
+  /**
+   * Obtiene el detalle de una póliza por su GUID.
+   */
   getPolicyByGuid(guid: string): Observable<Policy> {
     return this.http.get<Policy>(`${this.apiUrl}/${guid}`);
   }
 
-  // Obtener todas las pólizas asociadas a un cliente específico por su GUID
-  getPoliciesByClientGuid(clientGuid: string): Observable<Policy[]> {
-    return this.http.get<Policy[]>(`${this.apiUrl}/client/${clientGuid}`);
+  /**
+   * Crea una o múltiples pólizas asociadas a un cliente.
+   * El objeto de cada póliza incluye el arreglo `insureds: [...]`
+   */
+  createMultiplePolicies(clientGuid: string, policies: any[]): Observable<void> {
+    const payload: CreateClientPoliciesRequest = {
+      clientGuid,
+      policies
+    };
+    return this.http.post<void>(`${this.apiUrl}/bulk`, payload);
   }
 
-  // Actualizar póliza existente por su GUID
-  updatePolicy(guid: string, policy: Policy): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${guid}`, policy);
+  /**
+   * Actualiza los datos de una póliza y sincroniza su lista de asegurados.
+   */
+  updatePolicy(guid: string, policyData: any): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${guid}`, policyData);
   }
 
-  // Eliminar póliza por su GUID
-  deletePolicy(guid: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${guid}`);
+  /**
+   * Elimina una póliza por su GUID.
+   */
+  deletePolicy(guid: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${guid}`);
   }
 }

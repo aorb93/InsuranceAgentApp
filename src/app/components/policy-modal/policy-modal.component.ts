@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Client } from '../../models/client.model';
@@ -14,18 +14,17 @@ import { forkJoin } from 'rxjs';
   templateUrl: './policy-modal.component.html',
   styleUrls: ['./policy-modal.component.css']
 })
-export class PolicyModalComponent implements OnChanges {
+export class PolicyModalComponent implements OnInit, OnChanges {
   @Input() client: Client | null = null;
-  @Input() showPrompt: boolean = false; // Muestra el mini modal: "¿Desea agregar pólizas?"
-  @Input() showForm: boolean = false;   // NUEVO: Permite abrir el formulario directamente
+  @Input() showPrompt: boolean = false;
+  @Input() showForm: boolean = false;
 
-  @Output() completed = new EventEmitter<void>(); // Evento cuando se guardan las pólizas o se cierra
-  @Output() cancelled = new EventEmitter<void>(); // Evento si el usuario responde "No"
+  @Output() completed = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   policyForm!: FormGroup;
-  showPolicySection: boolean = false; // Despliega el formulario de pólizas
+  showPolicySection: boolean = false;
 
-  // Listas dinámicas para los combos
   policyTypes: CatalogItem[] = [];
   paymentFrequencies: CatalogItem[] = [];
 
@@ -42,12 +41,10 @@ export class PolicyModalComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Si cambia el cliente o se activa el prompt, reseteamos el formulario
     if (changes['client'] && this.client) {
       this.resetForms();
     }
 
-    // NUEVO: Si 'showForm' cambia a true, abre el formulario directamente
     if (changes['showForm']) {
       if (this.showForm) {
         this.showPolicySection = true;
@@ -82,36 +79,51 @@ export class PolicyModalComponent implements OnChanges {
     return this.policyForm.get('policies') as FormArray;
   }
 
-  // Pre-llena nombre, apellido y fecha de nacimiento con los datos del cliente
+  getInsureds(policyIndex: number): FormArray {
+    return this.policies.at(policyIndex).get('insureds') as FormArray;
+  }
+
+  newInsuredGroup(firstName = '', lastName = '', birthDate = ''): FormGroup {
+    return this.fb.group({
+      insuredGuid: [null],
+      firstName: [firstName, Validators.required],
+      lastName: [lastName, Validators.required],
+      birthDate: [birthDate]
+    });
+  }
+
   newPolicyGroup(): FormGroup {
     let formattedBirthDate = '';
     if (this.client?.birthDate) {
       formattedBirthDate = new Date(this.client.birthDate).toISOString().split('T')[0];
     }
 
+    // Por defecto agrega 1 asegurado prellenado con los datos del cliente
+    const defaultInsured = this.newInsuredGroup(
+      this.client?.firstName || '',
+      this.client?.lastName || '',
+      formattedBirthDate
+    );
+
     return this.fb.group({
-      insuredFirstName: [this.client?.firstName || '', Validators.required],
-      insuredLastName: [this.client?.lastName || '', Validators.required],
-      insuredBirthDate: [formattedBirthDate],
-      policyTypeId: ['', Validators.required], // Vacío por defecto
+      insureds: this.fb.array([defaultInsured]),
+      policyTypeId: ['', Validators.required],
       policyNumber: ['', Validators.required],
       company: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      paymentFrequencyId: ['', Validators.required], // Vacío por defecto
-      netPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
-      totalPremium: ['', [Validators.required, Validators.min(0)]], // Vacío por defecto
-      commissionPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]] // Vacío por defecto
+      paymentFrequencyId: ['', Validators.required],
+      netPremium: ['', [Validators.required, Validators.min(0)]],
+      totalPremium: ['', [Validators.required, Validators.min(0)]],
+      commissionPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
     });
   }
 
   addPolicyField(): void {
-    // Si ya existen elementos en el array y la estructura es inválida, no permite agregar otra
     if (this.policies.length > 0 && this.policies.invalid) {
       this.policies.markAllAsTouched();
       return;
     }
-
     this.policies.push(this.newPolicyGroup());
   }
 
@@ -119,21 +131,35 @@ export class PolicyModalComponent implements OnChanges {
     this.policies.removeAt(index);
   }
 
-  // Respuesta al mini modal de pregunta
+  addInsuredField(policyIndex: number): void {
+    const insureds = this.getInsureds(policyIndex);
+    if (insureds.invalid) {
+      insureds.markAllAsTouched();
+      return;
+    }
+    insureds.push(this.newInsuredGroup());
+  }
+
+  removeInsuredField(policyIndex: number, insuredIndex: number): void {
+    const insureds = this.getInsureds(policyIndex);
+    if (insureds.length > 1) {
+      insureds.removeAt(insuredIndex);
+    }
+  }
+
   onPromptResponse(wantToAddPolicies: boolean): void {
     this.showPrompt = false;
 
     if (wantToAddPolicies) {
       this.showPolicySection = true;
       this.policies.clear();
-      this.addPolicyField(); // Agrega la primera póliza pre-llenada
+      this.addPolicyField();
     } else {
       this.resetForms();
       this.cancelled.emit();
     }
   }
 
-  // Guardar pólizas en el backend
   onSubmitPolicies(): void {
     if (this.policyForm.invalid || !this.client?.guid) {
       this.policyForm.markAllAsTouched();
@@ -142,7 +168,6 @@ export class PolicyModalComponent implements OnChanges {
 
     const rawPolicies = this.policies.value;
 
-    // Pasamos el GUID del cliente y el listado de pólizas
     this.policyService.createMultiplePolicies(this.client.guid, rawPolicies).subscribe({
       next: () => {
         this.resetForms();

@@ -1,9 +1,7 @@
-<!-- Modal de Detalle / Edición de Póliza -->
 <div class="modal-backdrop" *ngIf="show && policy">
   <div class="modal-dialog modal-lg corporate-modal modal-dialog-centered">
     <div class="modal-content custom-modal-card">
 
-      <!-- ── Encabezado ──────────────────────────────────── -->
       <div class="modal-header corporate-header">
         <h5 class="modal-title d-flex align-items-center gap-2">
           <i class="bi" [class.bi-shield-check]="!isEditMode" [class.bi-pencil-square]="isEditMode"></i>
@@ -16,36 +14,35 @@
         <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
       </div>
 
-      <!-- ══════════════════════════════════════════════════ -->
-      <!-- MODO DETALLE (solo lectura)                        -->
-      <!-- ══════════════════════════════════════════════════ -->
+      <!-- MODO DETALLE (LECTURA) -->
       <ng-container *ngIf="!isEditMode">
         <div class="modal-body p-3 p-md-4">
 
-          <!-- Sección: Asegurado -->
+          <!-- Sección: Asegurados -->
           <div class="detail-section mb-4">
             <div class="detail-section-title mb-3">
-              <i class="bi bi-person-fill me-1"></i> Asegurado
+              <i class="bi bi-people-fill me-1"></i> Asegurados ({{ policy.insureds.length }})
             </div>
-            <div class="row g-3">
+            
+            <div *ngFor="let insured of policy.insureds; let isLast = last" class="row g-3" [class.border-bottom]="!isLast" [class.pb-2]="!isLast" [class.mb-2]="!isLast">
               <div class="col-6 col-md-4">
                 <span class="detail-label">Nombre</span>
-                <span class="detail-value">{{ policy.insuredFirstName }}</span>
+                <span class="detail-value">{{ insured.firstName }}</span>
               </div>
               <div class="col-6 col-md-4">
                 <span class="detail-label">Apellido(s)</span>
-                <span class="detail-value">{{ policy.insuredLastName }}</span>
+                <span class="detail-value">{{ insured.lastName }}</span>
               </div>
-              <div class="col-6 col-md-4">
+              <div class="col-12 col-md-4">
                 <span class="detail-label">Fecha de nacimiento</span>
                 <span class="detail-value">
-                  {{ policy.insuredBirthDate ? (policy.insuredBirthDate | date:'dd/MM/yyyy') : '—' }}
+                  {{ insured.birthDate ? (insured.birthDate | date:'dd/MM/yyyy') : '—' }}
                 </span>
               </div>
             </div>
           </div>
 
-          <!-- Sección: Datos de la Póliza -->
+          <!-- Sección: Póliza -->
           <div class="detail-section mb-4">
             <div class="detail-section-title mb-3">
               <i class="bi bi-shield-fill me-1"></i> Póliza
@@ -101,7 +98,6 @@
             </div>
           </div>
 
-          <!-- Fecha de Alta -->
           <div class="text-end">
             <small class="text-muted" style="font-size: 0.75rem;">
               <i class="bi bi-clock me-1"></i>
@@ -111,7 +107,6 @@
 
         </div>
 
-        <!-- Footer modo detalle -->
         <div class="modal-footer corporate-footer">
           <button type="button" class="btn btn-outline-secondary btn-modal-action" (click)="close()">
             Cerrar
@@ -122,36 +117,42 @@
         </div>
       </ng-container>
 
-      <!-- ══════════════════════════════════════════════════ -->
-      <!-- MODO EDICIÓN (formulario reactivo)                 -->
-      <!-- ══════════════════════════════════════════════════ -->
+      <!-- MODO EDICIÓN -->
       <ng-container *ngIf="isEditMode">
         <form [formGroup]="editForm" (ngSubmit)="saveChanges()" class="modal-form-wrapper">
 
-          <!-- Cuerpo con scroll -->
           <div class="modal-body p-3 p-md-4">
 
-            <!-- Datos del asegurado -->
+            <!-- Asegurados Dinámicos -->
             <div class="detail-section mb-4">
-              <div class="detail-section-title mb-3">
-                <i class="bi bi-person-fill me-1"></i> Asegurado
+              <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                <div class="detail-section-title border-bottom-0 pb-0 mb-0">
+                  <i class="bi bi-people-fill me-1"></i> Asegurados
+                </div>
+                <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" (click)="addInsured()">
+                  <i class="bi bi-person-plus-fill me-1"></i>Agregar asegurado
+                </button>
               </div>
-              <div class="row g-2 g-md-3">
-                <div class="col-6 col-md-4">
-                  <label class="form-label font-subtitle">Nombre *</label>
-                  <input type="text" class="form-control corporate-input"
-                    formControlName="insuredFirstName"
-                    [class.is-invalid]="editForm.get('insuredFirstName')?.touched && editForm.get('insuredFirstName')?.invalid">
-                </div>
-                <div class="col-6 col-md-4">
-                  <label class="form-label font-subtitle">Apellido(s) *</label>
-                  <input type="text" class="form-control corporate-input"
-                    formControlName="insuredLastName"
-                    [class.is-invalid]="editForm.get('insuredLastName')?.touched && editForm.get('insuredLastName')?.invalid">
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="form-label font-subtitle">F. Nacimiento</label>
-                  <input type="date" class="form-control corporate-input" formControlName="insuredBirthDate">
+
+              <div formArrayName="insureds">
+                <div *ngFor="let insuredGroup of insuredsArray.controls; let j = index" [formGroupName]="j" class="row g-2 g-md-3 align-items-end mb-2">
+                  <div class="col-5 col-md-4">
+                    <label class="form-label font-subtitle" *ngIf="j === 0">Nombre *</label>
+                    <input type="text" class="form-control corporate-input" formControlName="firstName" />
+                  </div>
+                  <div class="col-5 col-md-4">
+                    <label class="form-label font-subtitle" *ngIf="j === 0">Apellido(s) *</label>
+                    <input type="text" class="form-control corporate-input" formControlName="lastName" />
+                  </div>
+                  <div class="col-10 col-md-3">
+                    <label class="form-label font-subtitle" *ngIf="j === 0">F. Nacimiento</label>
+                    <input type="date" class="form-control corporate-input" formControlName="birthDate" />
+                  </div>
+                  <div class="col-2 col-md-1 text-end">
+                    <button type="button" class="btn btn-sm btn-outline-danger w-100" *ngIf="insuredsArray.length > 1" (click)="removeInsured(j)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -166,28 +167,24 @@
                   <label class="form-label font-subtitle">Tipo *</label>
                   <select class="form-select corporate-input" formControlName="policyTypeId">
                     <option *ngFor="let item of policyTypes" [value]="item.id">
-                        {{ item.name }}
-                      </option>
+                      {{ item.name }}
+                    </option>
                   </select>
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label font-subtitle">No. Póliza *</label>
-                  <input type="text" class="form-control corporate-input"
-                    formControlName="policyNumber"
-                    [class.is-invalid]="editForm.get('policyNumber')?.touched && editForm.get('policyNumber')?.invalid">
+                  <input type="text" class="form-control corporate-input" formControlName="policyNumber" />
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label font-subtitle">Compañía *</label>
-                  <input type="text" class="form-control corporate-input"
-                    placeholder="Ej. GNP" formControlName="company"
-                    [class.is-invalid]="editForm.get('company')?.touched && editForm.get('company')?.invalid">
+                  <input type="text" class="form-control corporate-input" placeholder="Ej. GNP" formControlName="company" />
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label font-subtitle">Periodicidad *</label>
                   <select class="form-select corporate-input" formControlName="paymentFrequencyId">
                     <option *ngFor="let item of paymentFrequencies" [value]="item.id">
-                        {{ item.name }}
-                      </option>
+                      {{ item.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -201,37 +198,29 @@
               <div class="row g-2 g-md-3">
                 <div class="col-6 col-md-3">
                   <label class="form-label font-subtitle">Inicio Vigencia *</label>
-                  <input type="date" class="form-control corporate-input"
-                    formControlName="startDate"
-                    [class.is-invalid]="editForm.get('startDate')?.touched && editForm.get('startDate')?.invalid">
+                  <input type="date" class="form-control corporate-input" formControlName="startDate" />
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label font-subtitle">Fin Vigencia *</label>
-                  <input type="date" class="form-control corporate-input"
-                    formControlName="endDate"
-                    [class.is-invalid]="editForm.get('endDate')?.touched && editForm.get('endDate')?.invalid">
+                  <input type="date" class="form-control corporate-input" formControlName="endDate" />
                 </div>
                 <div class="col-6 col-md-2">
                   <label class="form-label font-subtitle">Prima Neta *</label>
-                  <input type="number" class="form-control corporate-input"
-                    formControlName="netPremium" min="0">
+                  <input type="number" class="form-control corporate-input" formControlName="netPremium" min="0" />
                 </div>
                 <div class="col-6 col-md-2">
                   <label class="form-label font-subtitle">Prima Total *</label>
-                  <input type="number" class="form-control corporate-input"
-                    formControlName="totalPremium" min="0">
+                  <input type="number" class="form-control corporate-input" formControlName="totalPremium" min="0" />
                 </div>
                 <div class="col-12 col-md-2">
                   <label class="form-label font-subtitle">% Comisión *</label>
-                  <input type="number" class="form-control corporate-input"
-                    formControlName="commissionPercentage" min="0" max="100">
+                  <input type="number" class="form-control corporate-input" formControlName="commissionPercentage" min="0" max="100" />
                 </div>
               </div>
             </div>
 
           </div>
 
-          <!-- Footer modo edición -->
           <div class="modal-footer corporate-footer">
             <button type="button" class="btn btn-outline-secondary btn-modal-action" (click)="cancelEdit()">
               Cancelar
