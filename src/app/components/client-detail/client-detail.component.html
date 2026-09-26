@@ -53,12 +53,12 @@
 
             <div>
               <span class="info-label">Teléfono</span>
-              <span class="info-value">{{ client.phone || '—' }}</span>
+              <span class="info-value">{{ client.phone | phoneFormat }}</span>
             </div>
 
             <div>
-              <span class="info-label">RFC / ID</span>
-              <span class="info-value">{{ client.identificationNumber || '—' }}</span>
+              <span class="info-label">RFC</span>
+              <span class="info-value text-uppercase">{{ client.identificationNumber || '—' }}</span>
             </div>
 
             <div>

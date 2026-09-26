@@ -74,7 +74,7 @@
             <td>
               <div class="lh-sm">
                 <small class="d-block fw-medium" style="color: #334155;">{{ client.email }}</small>
-                <small class="text-muted">{{ client.phone }}</small>
+                <small class="text-muted">{{ client.phone | phoneFormat }}</small>
               </div>
             </td>
             <td>
@@ -139,7 +139,7 @@
         </div>
         <div class="d-flex align-items-center">
           <i class="bi bi-telephone me-2" style="color: #1e3a8a;"></i>
-          <span>{{ client.phone }}</span>
+          <span>{{ client.phone | phoneFormat }}</span>
         </div>
       </div>
 

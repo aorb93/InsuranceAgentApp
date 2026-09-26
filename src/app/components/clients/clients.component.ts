@@ -5,6 +5,7 @@ import { Client } from '../../models/client.model';
 //import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 import { ClientModalComponent } from '../client-modal/client-modal.component';
 import { RouterLink } from '@angular/router';
+import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 
 @Component({
   selector: 'app-clients',
@@ -13,7 +14,8 @@ import { RouterLink } from '@angular/router';
     CommonModule, 
     //PolicyModalComponent, 
     ClientModalComponent, 
-    RouterLink
+    RouterLink,
+    PhoneFormatPipe
   ],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'

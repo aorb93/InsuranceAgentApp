@@ -36,13 +36,15 @@
 
             <div class="col-6">
               <label class="form-label font-subtitle mb-1">Teléfono *</label>
-              <input type="text" formControlName="phone" class="form-control corporate-input" placeholder="6621000000"
+              <input type="text" formControlName="phone" class="form-control corporate-input" placeholder=""
+                mask="(000) 000-0000" [dropSpecialCharacters]="true"
                 [class.is-invalid]="clientForm.get('phone')?.touched && clientForm.get('phone')?.invalid">
             </div>
 
             <div class="col-6">
-              <label class="form-label font-subtitle mb-1">RFC / ID</label>
-              <input type="text" formControlName="identificationNumber" class="form-control corporate-input" placeholder="ABCD900101XXX">
+              <label class="form-label font-subtitle mb-1">RFC</label>
+              <input type="text" formControlName="identificationNumber" class="form-control corporate-input text-uppercase" 
+              placeholder="XAXX010101000" (input)="toUppercase($event, 'identificationNumber')">>
             </div>
 
             <div class="col-6">

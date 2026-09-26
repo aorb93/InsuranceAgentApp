@@ -9,11 +9,12 @@ import { Policy } from '../../models/policy.model';
 import { PolicyDetailComponent } from '../policy-detail/policy-detail.component';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 import { ClientModalComponent } from '../client-modal/client-modal.component';
+import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, PolicyDetailComponent, PolicyModalComponent, ClientModalComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, PolicyDetailComponent, PolicyModalComponent, ClientModalComponent, PhoneFormatPipe],
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.css']
 })

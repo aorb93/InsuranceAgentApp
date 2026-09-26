@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-client-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, PolicyModalComponent, NgxMaskDirective],
   templateUrl: './client-modal.component.html',
   styleUrls: ['./client-modal.component.css']
 })
@@ -119,5 +120,12 @@ export class ClientModalComponent implements OnChanges {
     this.showPolicyPrompt = false;
     this.createdClient = null;
     this.clientForm.reset({ clientType: 1, isActive: true });
+  }
+
+  toUppercase(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    const upperValue = input.value.toUpperCase();
+    
+    this.clientForm.get(controlName)?.setValue(upperValue, { emitEvent: false });
   }
 }
