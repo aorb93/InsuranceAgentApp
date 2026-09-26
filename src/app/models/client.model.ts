@@ -12,6 +12,8 @@ export interface Client {
   clientType: number;      // 1 = Cliente, 2 = Prospecto
   isActive: boolean;
   createdAt?: string;
+
+  policySummaries?: PolicyTypeSummary[];
 }
 
 export interface CreateClientDto {
@@ -27,3 +29,8 @@ export interface CreateClientDto {
 }
 
 export interface UpdateClientDto extends CreateClientDto {}
+
+export interface PolicyTypeSummary {
+  policyTypeName: string;
+  count: number;
+}

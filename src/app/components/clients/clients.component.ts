@@ -115,4 +115,17 @@ export class ClientsComponent implements OnInit {
       });
     }
   }
+
+  getPolicyBadgeClass(typeName: string): string {
+    if (!typeName) return 'badge-policy-default';
+    const name = typeName.toLowerCase();
+
+    if (name.includes('vida')) return 'badge-policy-vida';
+    if (name.includes('auto') || name.includes('vehic')) return 'badge-policy-auto';
+    if (name.includes('daño') || name.includes('hogar') || name.includes('incendio')) return 'badge-policy-danos';
+    if (name.includes('médic') || name.includes('salud') || name.includes('gmm')) return 'badge-policy-salud';
+    if (name.includes('ahorro') || name.includes('retiro')) return 'badge-policy-ahorro';
+
+    return 'badge-policy-default';
+  }
 }
